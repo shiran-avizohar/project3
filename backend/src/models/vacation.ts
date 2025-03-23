@@ -3,16 +3,17 @@ import {
     Column, 
     DataType, 
     Default, 
+    HasMany, 
     Model, 
     PrimaryKey, 
     Table 
 } from "sequelize-typescript";
+import Follow from "./follow";
 
 @Table({
     underscored: true,
 })
 export default class Vacation extends Model{
-
     @PrimaryKey
     @Default(DataType.UUIDV4)
     @Column(DataType.UUID)
@@ -41,4 +42,7 @@ export default class Vacation extends Model{
     @AllowNull(false)
     @Column
     imgFileName: string
+
+    @HasMany(() => Follow)
+    follows: Follow[];
 }
