@@ -1,4 +1,10 @@
 /* General styles for the login page */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
 .login-container {
     background-color: white;
     padding: 30px;
@@ -7,6 +13,7 @@
     width: 100%;
     max-width: 400px;
     margin: auto;
+    box-sizing: border-box; /* Ensures that padding doesn't affect width */
 }
 
 /* Header style inside the form */
@@ -25,7 +32,7 @@ input[type="password"] {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Ensures padding and border are included in the element's width and height */
 }
 
 /* Focus styles for inputs */

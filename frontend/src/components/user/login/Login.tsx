@@ -1,63 +1,65 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // שימוש ב-useNavigate
-import './Login.css';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+const Login = () => {
+    const navigate = useNavigate(); // Use useNavigate instead of useHistory
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const navigate = useNavigate(); // שימוש ב-useNavigate
 
-    // Handle form submission
-    const handleSubmit = (e: React.FormEvent) => { // נוסיף את הסוג של e
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Validation checks
-        if (!email || !password) {
-            setError('All fields are required.');
-            return;
-        }
-        if (!/\S+@\S+\.\S+/.test(email)) {
-            setError('Please enter a valid email address.');
-            return;
-        }
-        if (password.length < 4) {
-            setError('Password must be at least 4 characters long.');
-            return;
-        }
+        // Make an API call to check login credentials
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+            headers: { 'Content-Type': 'application/json' },
+        });
 
-        // Here you would typically verify the login details with a backend service
-        // For now, assume credentials are valid
-        const isLoginValid = email === 'user@example.com' && password === 'password123';
-
-        if (isLoginValid) {
-            setError('');
-            // Redirect to the vacations page upon successful login
-            navigate('/vacations'); // שימוש ב-navigate במקום push
+        if (response.ok) {
+            // If login is successful, store user data in localStorage
+            localStorage.setItem('user', email); // Save logged-in user info in localStorage
+            navigate('/vacations'); // Navigate to vacations page
         } else {
-            setError('Incorrect email or password.');
+            // Handle errors (e.g., show an error message)
+            alert('Login failed');
         }
     };
 
+    useEffect(() => {
+        // Check if there is already a logged-in user and skip login page
+        const user = localStorage.getItem('user');
+        if (user) {
+            navigate('/vacations'); // If user is logged in, navigate to vacations page
+        }
+    }, [navigate]); // Add navigate to dependency array
+
     return (
-        <div className='login-container'>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                {error && <div className="error-message">{error}</div>}
+        <div>
+            <h1>Login</h1>
+            <form onSubmit={handleLogin}>
+                <div>
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
                 <button type="submit">Login</button>
             </form>
         </div>
     );
-}
+};
+
+export default Login;
