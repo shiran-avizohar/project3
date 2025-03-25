@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Vacations.css';
+import { useNavigate } from 'react-router-dom';
 
 // Interface for vacation data
 interface Vacation {
@@ -13,62 +14,63 @@ interface Vacation {
 }
 
 export default function Vacations() {
-    // State to store vacation data
+    const navigate = useNavigate();
     const [vacations, setVacations] = useState<Vacation[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
-    // useEffect hook to fetch vacation data (mocked here)
     useEffect(() => {
-        // Mock vacation data, this could be fetched from an API
-        const mockVacations = [
-            {
-                id: 1,
-                title: 'Trip to Paris',
-                destination: 'Paris, France',
-                startDate: '2023-07-01',
-                endDate: '2023-07-10',
-                followers: 120,
-                isActive: true,
-            },
-            {
-                id: 2,
-                title: 'Beach Vacation in Bali',
-                destination: 'Bali, Indonesia',
-                startDate: '2023-08-15',
-                endDate: '2023-08-25',
-                followers: 200,
-                isActive: true,
-            },
-            {
-                id: 3,
-                title: 'Safari in Kenya',
-                destination: 'Kenya, Africa',
-                startDate: '2023-09-01',
-                endDate: '2023-09-10',
-                followers: 50,
-                isActive: false,
-            },
-        ];
+        // Check if user is logged in (e.g., check localStorage or sessionStorage)
+        const user = localStorage.getItem('user');
+        if (!user) {
+            navigate('/login'); // Redirect to login if not logged in
+            return;
+        }
 
-        // Set the vacation data to state
-        setVacations(mockVacations);
-    }, []);
+        // Fetch vacation data from API
+        const fetchVacations = async () => {
+            try {
+                const response = await fetch('/api/vacations');
+                if (response.ok) {
+                    const data = await response.json();
+                    setVacations(data); // Set the vacation data to state
+                } else {
+                    alert('Failed to load vacations');
+                }
+            } catch (error) {
+                console.error('Error fetching vacations:', error);
+                alert('An error occurred while fetching vacations.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchVacations();
+    }, [navigate]); // Trigger useEffect again if navigate changes
+
+    if (loading) {
+        return <div>Loading...</div>; // Display loading indicator while fetching data
+    }
 
     return (
         <div className='vacations-container'>
             <h2>Vacations</h2>
             <div className='vacations-list'>
                 {/* Map through vacations array to display each vacation */}
-                {vacations.map((vacation) => (
-                    <div key={vacation.id} className='vacation-card'>
-                        <h3>{vacation.title}</h3>
-                        <p>Destination: {vacation.destination}</p>
-                        <p>Start Date: {vacation.startDate}</p>
-                        <p>End Date: {vacation.endDate}</p>
-                        <p>Followers: {vacation.followers}</p>
-                        <p>Status: {vacation.isActive ? 'Active' : 'Inactive'}</p>
-                        <button>Follow</button>
-                    </div>
-                ))}
+                {vacations.length > 0 ? (
+                    vacations.map((vacation) => (
+                        <div key={vacation.id} className='vacation-card'>
+                            <h3>{vacation.title}</h3>
+                            <p>Destination: {vacation.destination}</p>
+                            <p>Start Date: {vacation.startDate}</p>
+                            <p>End Date: {vacation.endDate}</p>
+                            <p>Followers: {vacation.followers}</p>
+                            <p>Status: {vacation.isActive ? 'Active' : 'Inactive'}</p>
+                            <button>Follow</button>
+                        </div>
+                    ))
+                ) : (
+                    <p>No vacations available at the moment.</p>
+                )}
             </div>
         </div>
     );
