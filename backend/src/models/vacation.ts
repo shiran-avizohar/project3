@@ -9,11 +9,11 @@ import {
     Table 
 } from "sequelize-typescript";
 import Follow from "./follow";
-
-@Table({
-    underscored: true,
-})
 export default class Vacation extends Model{
+    users(users: any) {
+        throw new Error("Method not implemented.");
+        //--------------------------------
+    }
     @PrimaryKey
     @Default(DataType.UUIDV4)
     @Column(DataType.UUID)

@@ -12,9 +12,6 @@ import {
 import Vacation from "./vacation";
 import User from "./user";
 
-@Table({
-    underscored: true,
-})
 export default class Follow extends Model{
     @PrimaryKey
     @Default(DataType.UUIDV4)
