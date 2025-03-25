@@ -1,0 +1,31 @@
+.user-dashboard-container {
+    padding: 20px;
+  }
+  
+  .user-dashboard-header {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .user-dashboard-info {
+    margin-bottom: 30px;
+  }
+  
+  .user-dashboard-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .user-dashboard-button {
+    padding: 10px;
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .user-dashboard-button:hover {
+    background-color: #ff6347;
+  }
+  
