@@ -11,12 +11,13 @@ import { addVacation,
     deleteVacation, 
     getVacationReports
     } from "../controllers/admins/controller";
+import { authenticateUser, authorizeAdmin } from "../middlewares/auth-middleware";
 
 const router = Router();
 
-router.get('/:vacationId', paramsValidation(getVacationReportsValidator), getVacationReports);  
-router.post('/', validation(addVacationValidator), addVacation);  
-router.put('/:vacationId', validation(editVacationValidator), editVacation);  
-router.delete('/:vacationId', paramsValidation(deleteVacationValidator), deleteVacation); 
+router.get('/:vacationId', authenticateUser, authorizeAdmin, paramsValidation(getVacationReportsValidator), getVacationReports);  
+router.post('/', authenticateUser, authorizeAdmin, validation(addVacationValidator), addVacation);  
+router.put('/:vacationId', authenticateUser, authorizeAdmin, validation(editVacationValidator), editVacation);  
+router.delete('/:vacationId', authenticateUser, authorizeAdmin, paramsValidation(deleteVacationValidator), deleteVacation); 
 
 export default router;
