@@ -1,0 +1,44 @@
+/* Container for the entire vacations page */
+.vacations-container {
+    margin: 20px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+}
+
+/* Flex container to display the vacation cards */
+.vacations-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Style for each vacation card */
+.vacation-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    width: 250px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Vacation title style */
+.vacation-card h3 {
+    margin-top: 0;
+    color: #ff6347;
+}
+
+/* Button style */
+.vacation-card button {
+    background-color: #ff6347;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Button hover effect */
+.vacation-card button:hover {
+    background-color: #e5533c;
+}
