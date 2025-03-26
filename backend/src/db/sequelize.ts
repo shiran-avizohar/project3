@@ -11,7 +11,7 @@ const sequelize = new Sequelize({
     models: [ User, Vacation, Follow ],
     dialect: 'mysql',
     ...config.get('db'),
-    logging,
+    logging: console.log,
 })
 
 export default sequelize

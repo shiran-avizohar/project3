@@ -17,6 +17,7 @@ export default function Vacations() {
     const navigate = useNavigate();
     const [vacations, setVacations] = useState<Vacation[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string>(''); // State to handle errors
 
     useEffect(() => {
         // Check if user is logged in (e.g., check localStorage or sessionStorage)
@@ -30,15 +31,14 @@ export default function Vacations() {
         const fetchVacations = async () => {
             try {
                 const response = await fetch('/api/vacations');
-                if (response.ok) {
-                    const data = await response.json();
-                    setVacations(data); // Set the vacation data to state
-                } else {
-                    alert('Failed to load vacations');
+                if (!response.ok) {
+                    throw new Error('Failed to load vacations'); // Error handling
                 }
+                const data = await response.json();
+                setVacations(data); // Set the vacation data to state
             } catch (error) {
                 console.error('Error fetching vacations:', error);
-                alert('An error occurred while fetching vacations.');
+                setError('An error occurred while fetching vacations.');
             } finally {
                 setLoading(false);
             }
@@ -49,6 +49,10 @@ export default function Vacations() {
 
     if (loading) {
         return <div>Loading...</div>; // Display loading indicator while fetching data
+    }
+
+    if (error) {
+        return <div>{error}</div>; // Display error if it occurs
     }
 
     return (

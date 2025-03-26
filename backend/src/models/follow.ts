@@ -12,11 +12,8 @@ import {
 import Vacation from "./vacation";
 import User from "./user";
 
+@Table
 export default class Follow extends Model{
-    @PrimaryKey
-    @Default(DataType.UUIDV4)
-    @Column(DataType.UUID)
-    followId: string;
 
     @ForeignKey(() => Vacation)
     @AllowNull(false)

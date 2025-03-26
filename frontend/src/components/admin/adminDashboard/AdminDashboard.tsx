@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import './Dashboard.css';  // Import the CSS
+import './AdminDashboard.css'
 
 const Dashboard = () => {
   return (

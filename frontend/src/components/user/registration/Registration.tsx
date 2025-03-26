@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Registration.css';
 
 export default function RegisterPage() {
@@ -6,6 +7,8 @@ export default function RegisterPage() {
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
+    const navigate = useNavigate();
 
     // Handle form submission
     const handleSubmit = (e: React.FormEvent) => {
@@ -30,10 +33,25 @@ export default function RegisterPage() {
             return;
         }
 
-        // If everything is valid, clear error and log the success
+        // Clear any errors
         setError('');
+
+        // Save user data in localStorage
+        const userData = { email, password, fullName };
+        localStorage.setItem('user', JSON.stringify(userData));
+
         console.log('Registration successful');
-        // Here you can add logic to navigate to the vacations page
+        
+        // Clear form fields after submission
+        setEmail('');
+        setPassword('');
+        setFullName('');
+
+        // Optionally clear sessionStorage or localStorage if data is being stored there
+        sessionStorage.clear(); // Or localStorage.clear() if you're using localStorage
+
+        // Navigate to login page
+        navigate('/login');
     };
 
     return (
@@ -48,6 +66,7 @@ export default function RegisterPage() {
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                         required
+                        autoComplete="off"
                     />
                 </div>
                 <div className="form-group">
@@ -58,17 +77,33 @@ export default function RegisterPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        autoComplete="off"
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                    <div style={{ position: 'relative' }}>
+                        <input
+                            type={showPassword ? 'text' : 'password'}
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            autoComplete="off"
+                        />
+                        <span
+                            onClick={() => setShowPassword(!showPassword)}
+                            style={{
+                                position: 'absolute',
+                                right: '10px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            👁️
+                        </span>
+                    </div>
                 </div>
                 {error && <div className="error-message">{error}</div>}
                 <button type="submit" className="submit-button">

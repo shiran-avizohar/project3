@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Vacation from '../models/vacation/Vacation';
 
-class AdminService {
+class Admin {
   // API base URL
   private API_URL = 'http://localhost:3000';
 
@@ -68,5 +68,5 @@ class AdminService {
 }
 
 // Create an instance of the AdminService class
-const adminService = new AdminService();
+const adminService = new Admin();
 export default adminService;

@@ -10,14 +10,15 @@ body {
     height: 100vh;
 }
 
-/* Container for the Registration Form */
-.registration-container {
+/* Container for the Registration and Login Form */
+.container {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    max-width: 400px;  /* Set max width to 400px for both login and register */
     width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
 }
 
 /* Header style inside the form */
@@ -72,6 +73,7 @@ button:hover {
     color: red;
     font-size: 14px;
     margin-top: 5px;
+    text-align: center; /* Centered error message */
 }
 
 /* Form link styling for login navigation */
@@ -91,9 +93,9 @@ button:hover {
     text-decoration: underline;
 }
 
-/* Responsive design */
+/* Responsive design for mobile devices */
 @media (max-width: 480px) {
-    .registration-container {
+    .container {
         padding: 20px;
     }
 

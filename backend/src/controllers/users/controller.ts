@@ -19,6 +19,7 @@ export async function getVacations(req: Request, res: Response, next: NextFuncti
     }
 }
 
+
 // Allow a user to follow a vacation
 export async function followVacation(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {

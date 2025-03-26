@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"; // To handle navigati
 import "./EditVacation.css";
 
 const EditVacation = () => {
-  const { vacationId } = useParams(); // Get vacationId from the URL
+  const { id } = useParams(); // Get vacationId from the URL
   const navigate = useNavigate(); // To navigate after the form is submitted
 
   // Define state for vacation details
@@ -18,22 +18,18 @@ const EditVacation = () => {
 
   // Fetch vacation details by ID
   useEffect(() => {
-    // Simulate API call to fetch vacation by ID
-    // Replace with real API call (e.g., fetchVacation(vacationId))
-    const fetchVacationDetails = () => {
-      const fetchedVacation = {
-        destination: "Hawaii",
-        price: 2000,
-        startDate: "2023-12-01",
-        endDate: "2023-12-10",
-        description: "A beautiful vacation in Hawaii.",
-        imageUrl: "image-url-placeholder",
-      };
-      setVacation(fetchedVacation);
+    const fetchVacationDetails = async () => {
+      try {
+        const response = await fetch(`/api/vacations/${id}`);
+        if (!response.ok) throw new Error("Failed to fetch vacation details");
+        const data = await response.json();
+        setVacation(data);
+      } catch (error) {
+        console.error(error);
+      }
     };
-
     fetchVacationDetails();
-  }, [vacationId]);
+  }, [id]);
 
   // Handle form field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,13 +37,19 @@ const EditVacation = () => {
     setVacation({ ...vacation, [name]: value });
   };
 
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Send updated data to the server or local state
-    console.log("Updated vacation details:", vacation);
-    // Redirect after successful update
-    navigate("/admin/vacations"); // Change to your vacation list page
+    try {
+      const response = await fetch(`/api/vacations/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(vacation),
+      });
+      if (!response.ok) throw new Error("Failed to update vacation");
+      navigate("/admin/dashboard");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
