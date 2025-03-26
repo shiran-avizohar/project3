@@ -3,6 +3,7 @@ import config from 'config'
 import sequelize from "./db/sequelize"
 import usersRouter from './routers/users'
 import adminsRouter from './routers/admins'
+import websiteRouter from './routers/website'
 import errorLogger from "./middlewares/error/error-logger"
 import errorResponder from "./middlewares/error/error-responder"
 import notFound from "./middlewares/not-found"
@@ -25,6 +26,7 @@ const app = express();
 
     app.use('/users', usersRouter)
     app.use('/admins', adminsRouter)
+    app.use('/website', websiteRouter)
 
     // special notFound middleware
     app.use(notFound)
