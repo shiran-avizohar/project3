@@ -22,7 +22,7 @@ const isAdmin = () => {
 export default function Routing(): JSX.Element {
   return (
     <Routes>
-    <Route path="/" element={isLoggedIn() ? <HomePage /> : <Navigate to="/login" />} />
+    {/* <Route path="/" element={isLoggedIn() ? <HomePage /> : <Navigate to="/login" />} /> */}
 
       {/* Public Routes */}
       <Route path="/" element={<HomePage />} /> {/* דף הבית - ברירת מחדל */}

@@ -2,33 +2,43 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../../models/user";
+import dotenv from 'dotenv';
 
-const login = async (req: Request, res: Response) => {
-    try {
-        const { email, password } = req.body;
+// טוען את המשתנים מה-.env
+dotenv.config();
 
-        // בדיקת קיום המשתמש
-        const user = await User.findOne({ where: { email } });
-        if (!user) {
-            return res.status(401).json({ message: "Invalid email or password" });
-        }
+const login = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
 
-        // השוואת הסיסמה עם bcrypt
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ message: "Invalid email or password" });
-        }
-
-        // יצירת טוקן JWT
-        const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET as string, {
-            expiresIn: "1h",
-        });
-
-        res.json({ message: "Login successful", token, user: { id: user.id, email: user.email } });
-    } catch (error) {
-        console.error("Login error:", error);
-        res.status(500).json({ message: "Internal server error" });
+    // בדיקה אם יש JWT_SECRET
+    if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET is missing in .env file");
+      res.status(500).json({ message: "Server configuration error" });
+      return;
     }
+
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      res.status(401).json({ message: "Invalid email or password" });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid email or password" });
+      return;
+    }
+
+    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.json({ message: "Login successful", token, user: { id: user.id, email: user.email } });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 export default login;
