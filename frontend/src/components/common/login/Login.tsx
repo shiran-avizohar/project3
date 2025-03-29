@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -7,9 +7,18 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState<string>("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const hasNavigated = useRef(false);
+  // בדיקה אם המשתמש כבר מחובר
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setIsLoggedIn(true); // הסתרת הטופס
+      navigate("/user/dashboard"); // מעבר מיידי לעמוד המשתמש
+    }
+  }, [navigate]);
 
+  // טיפול בהתחברות
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -30,13 +39,9 @@ const Login = () => {
       console.log("Login successful:", data);
 
       localStorage.setItem("user", JSON.stringify(data));
+      setIsLoggedIn(true); // הסתרת הטופס לאחר התחברות
 
-      const userData = JSON.parse(localStorage.getItem("user") || "{}");
-      if (userData.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/user/vacations");
-      }
+      navigate("/user/dashboard"); // ניתוב לעמוד המשתמש
     } catch (error) {
       console.error("Login error:", error);
       setLoginError(
@@ -45,15 +50,10 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if (!hasNavigated.current) {
-      const user = localStorage.getItem("user");
-      if (user) {
-        hasNavigated.current = true; // מסמנים שכבר ניווטנו כדי למנוע לולאה אינסופית
-        navigate("/vacations");
-      }
-    }
-  }, [navigate]);
+  // אם המשתמש מחובר, לא מציגים את טופס ההתחברות
+  if (isLoggedIn) {
+    return null;
+  }
 
   return (
     <div>

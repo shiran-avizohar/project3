@@ -1,29 +1,30 @@
-import { Link } from 'react-router-dom';
-import './UserDashboard.css'; // Import the CSS
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const UserDashboard = () => {
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  useEffect(() => {
+    // console.log("Trying to navigate...");
+    // console.log("User:", user?.user);
+  
+    if (!user?.user?.email) {
+      navigate("/login");
+    }
+  }, [navigate, user?.user]);
+
   return (
     <div className="user-dashboard-container">
       <h2 className="user-dashboard-header">User Dashboard</h2>
-
       <div className="user-dashboard-info">
-        <h3>Welcome, [User Name]</h3>
+        <h3>Welcome, {user?.name || "Guest"}</h3>
         <p>Your profile and vacation details</p>
-        {/* Here you can dynamically display user info */}
       </div>
-
       <div className="user-dashboard-links">
-        <Link to="/user/vacations">
-          <button className="user-dashboard-button">My Vacations</button>
-        </Link>
-        
-        <Link to="/user/profile">
-          <button className="user-dashboard-button">Edit Profile</button>
-        </Link>
-
-        <Link to="/user/change-password">
-          <button className="user-dashboard-button">Change Password</button>
-        </Link>
+        <Link to="/user/vacations"><button className="user-dashboard-button">My Vacations</button></Link>
+        <Link to="/user/profile"><button className="user-dashboard-button">Edit Profile</button></Link>
+        <Link to="/user/change-password"><button className="user-dashboard-button">Change Password</button></Link>
       </div>
     </div>
   );

@@ -42,8 +42,9 @@ export default function Header() {
               )}
               {user.role !== "admin" && (
                 <>
-                  <NavLink to="/vacations/followed">Followed Vacations</NavLink>
-                  <NavLink to="/vacations">Vacations</NavLink>
+                  <NavLink to="/user/userDashboard">Home</NavLink>
+                  <NavLink to="/user/vacations/follow">Followed Vacations</NavLink>
+                  <NavLink to="/user/vacations">Vacations</NavLink>
                 </>
               )}
               {user && (

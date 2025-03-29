@@ -44,4 +44,5 @@ export default class Vacation extends Model{
 
     @HasMany(() => Follow)
     follows: Follow[];
+    title: any;
 }

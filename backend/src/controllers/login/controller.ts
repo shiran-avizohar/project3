@@ -5,12 +5,11 @@ import User from "../../models/user";
 import dotenv from 'dotenv';
 
 // טוען את המשתנים מה-.env
-dotenv.config();
+dotenv.config({ path: ".env.development" });
 
 const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
-
     // בדיקה אם יש JWT_SECRET
     if (!process.env.JWT_SECRET) {
       console.error("JWT_SECRET is missing in .env file");
@@ -30,7 +29,8 @@ const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+
+    const token = jwt.sign({ id: user.dataValues.userId, email: user.dataValues.email }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 

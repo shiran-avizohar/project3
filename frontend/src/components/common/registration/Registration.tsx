@@ -48,7 +48,7 @@ export default function RegisterPage() {
         email,
         password,
         firstName,
-        LastName,
+        lastName,
         role,
       });
 
@@ -63,8 +63,9 @@ export default function RegisterPage() {
         // Clear form fields after submission
         setEmail("");
         setPassword("");
-        setFirstlName("");
-        setLastlName("");
+        setFirstName("");
+        setLastName("");
+        setRole("");
 
         // Optionally clear sessionStorage or localStorage if data is being stored there
         sessionStorage.clear(); // Or localStorage.clear() if you're using localStorage

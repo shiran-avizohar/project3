@@ -6,7 +6,7 @@ import { authenticateUser } from "../middlewares/auth-middleware";
 const router = Router();
 
 // Route to get all vacations with associated users
-router.get("/", authenticateUser, getVacations); // קריאה לפונקציה getVacations מהקונטרולר
+router.get("/vacations", getVacations);
 
 // Route to allow a user to follow a vacation
 router.post("/follow", authenticateUser, followVacation); // קריאה לפונקציה followVacation מהקונטרולר
@@ -15,3 +15,4 @@ router.post("/follow", authenticateUser, followVacation); // קריאה לפונ
 router.delete("/unfollow/:vacationId/:userId", unfollowVacation); // קריאה לפונקציה unfollowVacation מהקונטרולר
 
 export default router;
+
