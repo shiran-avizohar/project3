@@ -26,7 +26,7 @@ const app = express();
 
     app.use('/api/users', usersRouter)
     app.use('/admins', adminsRouter)
-    app.use('/api', authRouter)
+    app.use('/', authRouter)
 
     // special notFound middleware
     app.use(notFound)
