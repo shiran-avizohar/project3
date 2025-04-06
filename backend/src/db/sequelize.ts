@@ -45,7 +45,7 @@ sequelize.authenticate()
     });
 
 // אם צריך לסנכרן את המודלים על מנת ליצור את הטבלאות במסד נתונים
-sequelize.sync({ force: false }) // true יגרום למחוק את הטבלאות כל פעם
+sequelize.sync({ force: false, alter: false })// true יגרום למחוק את הטבלאות כל פעם
     .then(() => {
         console.log('Database synced successfully');
     })
