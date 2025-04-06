@@ -24,7 +24,7 @@ const app = express();
 
     app.use(json()) // a middleware to extract the post/put/patch data and save it to the request object in case the content type of the request is application/json
 
-    app.use('/users', usersRouter)
+    app.use('/api/users', usersRouter)
     app.use('/admins', adminsRouter)
     app.use('/api', authRouter)
 

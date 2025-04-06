@@ -5,22 +5,16 @@ import Follow from '../../models/follow';
 
 // Retrieve all vacations with follower information
 
+
 export async function getVacations(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const vacations = await Vacation.findAll({
-            include: [{
-                model: Follow,
-                attributes: ['userId'], // Retrieve only the user IDs of followers
-            }],
-        });
-        console.log(vacations);  
-
+        const vacations = await Vacation.findAll();  
+        console.log(vacations);
         res.status(200).json(vacations);
     } catch (error) {
         next(error);
     }
 }
-
 
 // Allow a user to follow a vacation
 export async function followVacation(req: Request, res: Response, next: NextFunction): Promise<void> {

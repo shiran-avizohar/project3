@@ -43,14 +43,17 @@ export default function RegisterPage() {
     try {
       // Use the base URL from the environment variables
       const baseUrl = import.meta.env.VITE_REST_SERVER_URL;
-      console.log(baseUrl);
-      const response = await axios.post(`${baseUrl}/website/register`, {
+      console.log("VITE_REST_SERVER_URL:", import.meta.env.VITE_REST_SERVER_URL);
+
+      console.log( baseUrl);
+      const response = await axios.post(`${baseUrl}/register`, {
         email,
         password,
         firstName,
         lastName,
         role,
       });
+      
 
       if (response.data.success) {
         // Assuming the API response contains a success field
@@ -151,6 +154,7 @@ export default function RegisterPage() {
               onChange={(e) => setRole(e.target.value)}
               required
             >
+              <option value="">Please select a role</option>
               <option value="USER">User</option>
               <option value="ADMIN">Admin</option>
             </select>

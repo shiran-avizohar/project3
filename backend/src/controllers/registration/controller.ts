@@ -9,7 +9,7 @@ export const register = async (req: Request, res: Response) => {
     // // בדיקה אם המשתמש כבר קיים
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      res.status(400).json({ message: "User already exists" });
+    res.status(400).json({ message: "Email is already registered" });
     }
 
     // הצפנת הסיסמה

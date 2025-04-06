@@ -29,7 +29,7 @@ export default function Vacations() {
         // Function to fetch vacations
         const fetchVacations = async () => {
             try {
-                const response = await fetch('/api/vacations');
+                const response = await fetch('http://localhost:3000/api/users/vacations');
                 if (!response.ok) {
                     throw new Error(`Failed to load vacations: ${response.status} ${response.statusText}`);
                 }
