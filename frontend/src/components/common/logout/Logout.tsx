@@ -4,15 +4,16 @@ const Logout = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // מחיקת נתוני המשתמש מ-localStorage
+        // Remove user data from localStorage
         localStorage.removeItem('user');
-        // נווט לדף הלוגין לאחר ההתנתקות
+        // Navigate to login page after logging out
         navigate("/login");
     };
 
     return (
-        <div>
-            <button onClick={handleLogout}>Logout</button>
+        <div className="logout-container">
+            {/* Logout button */}
+            <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
     );
 };
