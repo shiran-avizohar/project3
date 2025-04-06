@@ -1,31 +1,90 @@
-.user-dashboard-container {
-    padding: 20px;
+/* Main container for the Follow page */
+.follow-vacation-container {
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+/* Header style */
+.follow-vacation-header {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ff7f50; /* Similar to the button color */
+  text-align: center;
+}
+
+/* Vacation details section */
+.vacation-details {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vacation-details h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.vacation-details p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+/* Button styling */
+.follow-action-button {
+  padding: 12px 20px;
+  background-color: #ff7f50; /* Orange color like the user dashboard button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 48%; /* Two buttons will fit in a row */
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+/* Button hover effect */
+.follow-action-button:hover {
+  background-color: #ff6347; /* Slightly darker orange on hover */
+}
+
+/* Layout for vacation actions (buttons) */
+.vacation-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  color: #ff7f50;
+  font-size: 1.2rem;
+  margin-top: 30px;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 480px) {
+  .follow-vacation-container {
+    padding: 15px;
   }
-  
-  .user-dashboard-header {
-    font-size: 2rem;
-    margin-bottom: 20px;
+
+  .vacation-details {
+    padding: 15px;
   }
-  
-  .user-dashboard-info {
-    margin-bottom: 30px;
+
+  .follow-action-button {
+    font-size: 0.9rem;
+    width: 100%; /* Full width for buttons on small screens */
   }
-  
-  .user-dashboard-links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .user-dashboard-button {
-    padding: 10px;
-    background-color: #ff7f50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .user-dashboard-button:hover {
-    background-color: #ff6347;
-  }
-  
+}

@@ -1,3 +1,4 @@
+import './UserDashboard.css'
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -6,11 +7,9 @@ const UserDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   useEffect(() => {
-    // console.log("Trying to navigate...");
-    // console.log("User:", user?.user);
-  
+    // If the user is not logged in (no email in localStorage), navigate to the login page
     if (!user?.user?.email) {
-      navigate("/login");
+      navigate("/login"); // move to login page if no user
     }
   }, [navigate, user?.user]);
 
@@ -22,9 +21,14 @@ const UserDashboard = () => {
         <p>Your profile and vacation details</p>
       </div>
       <div className="user-dashboard-links">
-        <Link to="/user/vacations"><button className="user-dashboard-button">My Vacations</button></Link>
-        <Link to="/user/profile"><button className="user-dashboard-button">Edit Profile</button></Link>
-        <Link to="/user/change-password"><button className="user-dashboard-button">Change Password</button></Link>
+        {/* Link to the 'Vacations' page */}
+        <Link to="/user/vacations">
+          <button className="user-dashboard-button">My Vacations</button>
+        </Link>
+        {/* Link to the 'Followed Vacations' page */}
+        <Link to="/user/follow">
+          <button className="user-dashboard-button">Followed Vacations</button>
+        </Link>
       </div>
     </div>
   );
