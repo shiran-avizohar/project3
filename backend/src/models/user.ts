@@ -10,7 +10,10 @@ import {
 } from "sequelize-typescript";
 import Follow from "./follow";
 
-@Table
+
+@Table({
+    tableName: 'users'
+  })
 export default class User extends Model{
     @PrimaryKey
     @Default(DataType.UUIDV4)

@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import Vacation from '../../models/vacation';
-import User from '../../models/user';
 import Follow from '../../models/follow';
 
 // Retrieve all vacations with follower information
