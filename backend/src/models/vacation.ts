@@ -10,7 +10,10 @@ import {
 } from "sequelize-typescript";
 import Follow from "./follow";
 
-@Table
+@Table({
+    underscored: true,
+    tableName: 'vacations'
+  })
 export default class Vacation extends Model{
 
     @PrimaryKey
