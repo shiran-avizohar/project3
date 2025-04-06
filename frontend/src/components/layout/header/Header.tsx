@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
-import logo from "../../../assets/images/dreamt.png";
+const logo = "/images/dreamt.png";  // נתיב מתוך תיקיית public
 
 // Helper function to check if the user is logged in by checking localStorage
 const isUserLoggedIn = () => {
@@ -43,7 +43,7 @@ export default function Header() {
               {user.role !== "admin" && (
                 <>
                   <NavLink to="/user/userDashboard">Home</NavLink>
-                  <NavLink to="/user/vacations/follow">Followed Vacations</NavLink>
+                  <NavLink to="/user/follow">Followed Vacations</NavLink>
                   <NavLink to="/user/vacations">Vacations</NavLink>
                 </>
               )}
