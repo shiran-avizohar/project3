@@ -1,0 +1,70 @@
+/* General styles for the Follow page */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Main container for the Follow page */
+.follow-vacation-container {
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    box-sizing: border-box; /* Ensures that padding doesn't affect width */
+}
+
+/* Header style */
+h2 {
+    text-align: center;
+    color: #ff8c00; /* Orange color for the title */
+    margin-bottom: 20px;
+}
+
+/* Vacation details */
+.vacation-details {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Vacation title */
+.vacation-details h3 {
+    color: #333;
+}
+
+/* Vacation actions section */
+.vacation-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Action button styles */
+.follow-action-button {
+    padding: 10px 20px;
+    background-color: #ff8c00; /* Orange color for the button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the action buttons */
+.follow-action-button:hover {
+    background-color: #e07b00; /* Slightly darker orange on hover */
+}
+
+/* Loading state */
+.loading {
+    text-align: center;
+    color: #ff8c00;
+    font-size: 18px;
+}
+
