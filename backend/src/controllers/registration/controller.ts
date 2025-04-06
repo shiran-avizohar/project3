@@ -6,15 +6,12 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { firstName, lastName, role, email, password } = req.body;
     console.log(req.body);
-    // // בדיקה אם המשתמש כבר קיים
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
     res.status(400).json({ message: "Email is already registered" });
     }
 
-    // הצפנת הסיסמה
     const hashedPassword = await bcrypt.hash(password, 10);
-    // יצירת המשתמש ושמירתו בדאטהבייס
     const newUser = await User.create({
       firstName: firstName,
       lastName: lastName,
