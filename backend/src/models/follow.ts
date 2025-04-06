@@ -12,7 +12,10 @@ import {
 import Vacation from "./vacation";
 import User from "./user";
 
-@Table
+@Table({
+  tableName: 'follows'
+})
+
 export default class Follow extends Model{
 
     @ForeignKey(() => Vacation)
