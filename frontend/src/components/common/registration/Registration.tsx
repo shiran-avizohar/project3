@@ -45,13 +45,15 @@ export default function RegisterPage() {
       const baseUrl = import.meta.env.VITE_REST_SERVER_URL;
       console.log("VITE_REST_SERVER_URL:", import.meta.env.VITE_REST_SERVER_URL);
 
-      console.log( baseUrl);
-      const response = await axios.post(`${baseUrl}/register`, {
+      console.log( `${baseUrl}/api/register`);
+      console.log(email,password,firstName,lastName,role)
+      const response = await axios.post(`${baseUrl}/api/register`, {
         email,
         password,
         firstName,
         lastName,
         role,
+        
       });
       
 
@@ -74,7 +76,7 @@ export default function RegisterPage() {
         sessionStorage.clear(); // Or localStorage.clear() if you're using localStorage
 
         // Navigate to login page
-        navigate("/login");
+        navigate("/adminDashboard");
       } else {
         setError("Registration failed: " + response.data.message);
       }

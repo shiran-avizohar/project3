@@ -4,7 +4,6 @@ import { authenticateUser } from "../middlewares/auth-middleware";
 
 // יצירת ראוטר חדש
 const router = Router();
-
 // Route to get all vacations with associated users
 router.get("/vacations", getVacations);
 

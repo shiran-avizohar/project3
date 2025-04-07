@@ -6,7 +6,7 @@ import login from "../controllers/login/controller";
 const router = Router();
 
 // Route for user registration
-router.post("/register", register);
+router.post("/api/register", register);
 
 // Route for user login
 router.post("/login", login);

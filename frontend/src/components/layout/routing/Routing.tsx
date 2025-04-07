@@ -18,7 +18,7 @@ const isLoggedIn = () => localStorage.getItem("user") !== null;
 // Helper function to check if the user is an admin
 const isAdmin = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  return user?.role === "admin";
+  return user?.role === "ADMIN";
 };
 
 export default function Routing(): JSX.Element {

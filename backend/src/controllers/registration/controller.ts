@@ -1,28 +1,35 @@
-import { Request, Response } from "express";
+import { Request, Response, RequestHandler } from "express";
 import User from "../../models/user";
 import bcrypt from "bcryptjs";
-//func to register new user
-export const register = async (req: Request, res: Response) => {
+
+// Register function, updated for correct type handling
+export const register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
   try {
     const { firstName, lastName, role, email, password } = req.body;
     console.log(req.body);
+
+    // Check if the email is already registered
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-    res.status(400).json({ message: "Email is already registered" });
+       res.status(400).json({ message: "Email is already registered" });
+      return; // Early return to prevent further processing
     }
 
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create the new user
     const newUser = await User.create({
-      firstName: firstName,
-      lastName: lastName,
-      role: role,
-      email: email,
+      firstName,
+      lastName,
+      role,
+      email,
       password: hashedPassword,
     });
 
-    res
-      .status(201)
-      .json({ message: "User registered successfully", user: newUser });
+    // Send success response
+    res.status(201).json({ message: "User registered successfully", user: newUser });
+
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({ message: "Internal server error" });
