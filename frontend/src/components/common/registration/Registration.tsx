@@ -10,7 +10,6 @@ export default function RegisterPage() {
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
-  const [role, setRole] = useState("");
 
   const navigate = useNavigate();
 
@@ -18,7 +17,7 @@ export default function RegisterPage() {
     e.preventDefault();
 
     // Check if all fields are filled
-    if (!email || !password || !firstName || !lastName || !role ) {
+    if (!email || !password || !firstName || !lastName ) {
       setError("All fields are required");
       return;
     }
@@ -46,13 +45,12 @@ export default function RegisterPage() {
       console.log("VITE_REST_SERVER_URL:", import.meta.env.VITE_REST_SERVER_URL);
 
       console.log( `${baseUrl}/api/register`);
-      console.log(email,password,firstName,lastName,role)
+      console.log(email,password,firstName,lastName,)
       const response = await axios.post(`${baseUrl}/api/register`, {
         email,
         password,
         firstName,
         lastName,
-        role,
         
       });
       
@@ -70,7 +68,6 @@ export default function RegisterPage() {
         setPassword("");
         setFirstName("");
         setLastName("");
-        setRole("");
 
         // Optionally clear sessionStorage or localStorage if data is being stored there
         sessionStorage.clear(); // Or localStorage.clear() if you're using localStorage
@@ -149,17 +146,6 @@ export default function RegisterPage() {
             </span>
           </div>
           <div className="form-group">
-            <label htmlFor="role">Role</label>
-            <select
-              id="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              required
-            >
-              <option value="">Please select a role</option>
-              <option value="USER">User</option>
-              <option value="ADMIN">Admin</option>
-            </select>
           </div>
         </div>
         {error && <div className="error-message">{error}</div>}
