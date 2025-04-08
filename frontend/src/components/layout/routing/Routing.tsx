@@ -18,8 +18,10 @@ const isLoggedIn = () => localStorage.getItem("user") !== null;
 // Helper function to check if the user is an admin
 const isAdmin = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  return user?.role === "ADMIN";
+  console.log('User:', user); // הדפסת המידע שנשמר ב-localStorage
+  return user?.role === "admin";
 };
+
 
 export default function Routing(): JSX.Element {
   return (
@@ -33,10 +35,10 @@ export default function Routing(): JSX.Element {
 
       {/* Admin Routes */}
       <Route path="/admin/dashboard" element={isAdmin() ? <AdminDashboard /> : <Navigate to="/login" />} />
-      <Route path="/admin/vacation-reports" element={isAdmin() ? <Reports /> : <Navigate to="/login" />} />
-      <Route path="/admin/add-vacation" element={isAdmin() ? <AddVacation /> : <Navigate to="/login" />} />
-      <Route path="/admin/edit-vacation/:id" element={isAdmin() ? <EditVacation /> : <Navigate to="/login" />} />
-      <Route path="/admin/csv-download" element={isAdmin() ? <CsvDownload /> : <Navigate to="/login" />} />
+      <Route path="/admin/reports" element={isAdmin() ? <Reports /> : <Navigate to="/login" />} />
+      <Route path="/admin/addVacation" element={isAdmin() ? <AddVacation /> : <Navigate to="/login" />} />
+      <Route path="/admin/editVacation/:id" element={isAdmin() ? <EditVacation /> : <Navigate to="/login" />} />
+      <Route path="/admin/csvDownload" element={isAdmin() ? <CsvDownload /> : <Navigate to="/login" />} />
 
       {/* User Routes */}
       {/* User Dashboard route will redirect to dashboard page if logged in */}
@@ -48,7 +50,16 @@ export default function Routing(): JSX.Element {
       <Route path="/user/unfollow" element={isLoggedIn() ? <Unfollow /> : <Navigate to="/login" />} />
 
       {/* Redirect to Login if the user is not logged in */}
-      <Route path="*" element={isLoggedIn() ? <Navigate to="/user/dashboard" /> : <Navigate to="/login" />} />
+<Route 
+  path="*" 
+  element={isLoggedIn() 
+    ? (isAdmin() 
+        ? <Navigate to="/admin/dashboard" /> 
+        : <Navigate to="/user/dashboard" />) 
+    : <Navigate to="/login" />
+  } 
+/>
+
     </Routes>
   );
 }
