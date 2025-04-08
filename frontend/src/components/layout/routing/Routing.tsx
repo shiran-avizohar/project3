@@ -150,7 +150,7 @@ export default function Routing(): JSX.Element {
         element={isAdmin() ? <AdminDashboard /> : <Navigate to="/login" />}
       />
       <Route
-        path="/admin/manageVacation"
+        path="/admin/VacationManagement"
         element={isAdmin() ? <VacationManagement /> : <Navigate to="/login" />}
       />
       <Route

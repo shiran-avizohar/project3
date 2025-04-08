@@ -15,7 +15,7 @@ const Dashboard = () => {
           <button className="dashboard-button">Add New Vacation</button>
         </Link>
         
-        <Link to="/admin/manageVacation">
+        <Link to="/admin/VacationManagement">
           <button className="dashboard-button">Vacation Management</button>
         </Link>
 
