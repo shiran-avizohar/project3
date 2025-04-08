@@ -2,7 +2,7 @@ import './Follow.css';
 import { useEffect, useState } from "react";
 
 interface Vacation {
-  id: number;
+  id: string;
   title: string;
   description: string;
   startDate: string;
@@ -16,7 +16,7 @@ const Follow = () => {
   const [vacations, setVacations] = useState<Vacation[]>([]); // Vacation state
   const [loading, setLoading] = useState(true);
 
-  // Function to simulate fetching vacation details from a database
+  // Fetching vacations
   const fetchVacations = async () => {
     try {
       const response = await fetch('YOUR_API_ENDPOINT_HERE'); // Replace with your actual API endpoint
@@ -33,7 +33,7 @@ const Follow = () => {
   };
 
   // Handle LIKE action
-  const handleLike = (vacationId: number) => {
+  const handleLike = (vacationId: string) => {
     setVacations((prevVacations) =>
       prevVacations.map((vacation) =>
         vacation.id === vacationId
@@ -41,6 +41,17 @@ const Follow = () => {
           : vacation
       )
     );
+  };
+
+  // Handle FOLLOW action
+  const handleFollow = (vacationId: string) => {
+    // Save followed vacation to localStorage
+    const followedVacations = JSON.parse(localStorage.getItem("followedVacations") || "[]");
+    if (!followedVacations.some((vacation: Vacation) => vacation.id === vacationId)) {
+      const vacationToFollow = vacations.find((vacation) => vacation.id === vacationId);
+      followedVacations.push(vacationToFollow!);
+      localStorage.setItem("followedVacations", JSON.stringify(followedVacations));
+    }
   };
 
   useEffect(() => {
@@ -71,10 +82,10 @@ const Follow = () => {
               {vacation.liked ? "Liked" : "Like"}
             </button>
 
-            <div className="vacation-actions">
-              <button className="follow-action-button">Unfollow</button>
-              <button className="follow-action-button">Share</button>
-            </div>
+            {/* Button to follow */}
+            <button onClick={() => handleFollow(vacation.id)} className="follow-action-button">
+              Follow
+            </button>
           </div>
         ))
       )}

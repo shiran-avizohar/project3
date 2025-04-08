@@ -4,13 +4,11 @@ import jwt from "jsonwebtoken";
 import User from "../../models/user";
 import dotenv from 'dotenv';
 
-// טוען את המשתנים מה-.env
 dotenv.config({ path: ".env.development" });
 
 const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
-    // בדיקה אם יש JWT_SECRET
     if (!process.env.JWT_SECRET) {
       console.error("JWT_SECRET is missing in .env file");
       res.status(500).json({ message: "Server configuration error" });
@@ -18,6 +16,8 @@ const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     const user = await User.findOne({ where: { email } });
+    console.log('User found:', user);
+
     if (!user) {
       res.status(401).json({ message: "Invalid email or password" });
       return;
@@ -30,11 +30,23 @@ const login = async (req: Request, res: Response): Promise<void> => {
     }
 
 
-    const token = jwt.sign({ id: user.dataValues.userId, email: user.dataValues.email }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.dataValues.userId, email: user.dataValues.email, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "1h",
-    });
+   });
+   
 
-    res.json({ message: "Login successful", token, user: { id: user.id, email: user.email } });
+    res.json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user.userId,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role  
+      }
+    });  
+  
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Internal server error" });

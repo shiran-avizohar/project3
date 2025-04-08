@@ -16,24 +16,27 @@ const force = config.get<boolean>('sequelize.sync.force')
 const app = express();
 
 (async () => {
-    await sequelize.sync({ force })
+    try {
+        await sequelize.sync({ force }) // ensure sequelize syncs first
 
-    
-    // middlewares
-    app.use(cors()) // allow any client to use this server
+        // middlewares
+        app.use(cors()) // allow any client to use this server
+        app.use(json()) // middleware to handle JSON payloads
 
-    app.use(json()) // a middleware to extract the post/put/patch data and save it to the request object in case the content type of the request is application/json
+        app.use('/api/users', usersRouter)
+        app.use('/api/admins', adminsRouter)
+        app.use('/', authRouter)
 
-    app.use('/api/users', usersRouter)
-    app.use('/admins', adminsRouter)
-    app.use('/', authRouter)
+        // 404 not found middleware
+        app.use(notFound)
 
-    // special notFound middleware
-    app.use(notFound)
+        // error middleware (error logging and response)
+        app.use(errorLogger)
+        app.use(errorResponder)
 
-    // error middleware
-    app.use(errorLogger)
-    app.use(errorResponder)
-
-    app.listen(port, () => console.log(`${name} started on port ${port}...`))
+        app.listen(port, () => console.log(`${name} started on port ${port}...`))
+    } catch (error) {
+        console.error('Server failed to start due to:', error);
+        process.exit(1); // terminate if server initialization fails
+    }
 })()

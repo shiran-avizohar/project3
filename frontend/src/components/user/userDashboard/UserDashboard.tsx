@@ -9,7 +9,7 @@ const UserDashboard = () => {
   useEffect(() => {
     // If the user is not logged in (no email in localStorage), navigate to the login page
     if (!user?.user?.email) {
-      navigate("/login"); // move to login page if no user
+      navigate("/login");
     }
   }, [navigate, user?.user]);
 
@@ -22,13 +22,9 @@ const UserDashboard = () => {
       </div>
       <div className="user-dashboard-links">
         {/* Link to the 'Vacations' page */}
-        <Link to="/user/vacations">
-          <button className="user-dashboard-button">My Vacations</button>
-        </Link>
+        <Link to="/user/vacations"><button className="user-dashboard-button">My Vacations</button></Link>
         {/* Link to the 'Followed Vacations' page */}
-        <Link to="/user/follow">
-          <button className="user-dashboard-button">Followed Vacations</button>
-        </Link>
+        <Link to="/user/follow"><button className="user-dashboard-button">Followed Vacations</button></Link>
       </div>
     </div>
   );

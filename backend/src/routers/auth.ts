@@ -9,6 +9,6 @@ const router = Router();
 router.post("/api/register", register);
 
 // Route for user login
-router.post("/login", login);
+router.post("/api/login", login);
 
 export default router;

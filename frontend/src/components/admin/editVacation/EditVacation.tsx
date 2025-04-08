@@ -16,6 +16,9 @@ const EditVacation = () => {
     imageUrl: "",
   });
 
+  const [loading, setLoading] = useState(true); // State for loading status
+  const [error, setError] = useState<string | null>(null); // State for error messages
+
   // Fetch vacation details by ID
   useEffect(() => {
     const fetchVacationDetails = async () => {
@@ -26,6 +29,9 @@ const EditVacation = () => {
         setVacation(data);
       } catch (error) {
         console.error(error);
+        setError("Something went wrong while fetching vacation details");
+      } finally {
+        setLoading(false); // Set loading to false once the request finishes
       }
     };
     fetchVacationDetails();
@@ -49,8 +55,19 @@ const EditVacation = () => {
       navigate("/admin/dashboard");
     } catch (error) {
       console.error(error);
+      setError("Failed to update vacation");
     }
   };
+
+  // If data is still loading, show loading message or spinner
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // If there's an error fetching or submitting, display the error message
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
 
   return (
     <div className="edit-vacation-container">

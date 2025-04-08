@@ -12,7 +12,7 @@ interface Vacation {
     vacationDescription: string;
 }
 
-export default function ManageVacations() {
+export default function ManageVacation() {
     const navigate = useNavigate();
     const [vacations, setVacations] = useState<Vacation[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -21,7 +21,13 @@ export default function ManageVacations() {
     // Fetching all vacations
     const fetchVacations = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/admin/vacations'); // endpoint לניהול חופשות
+            const response = await fetch('http://localhost:3000/api/admins/vacations', {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              });
+              
+
             if (!response.ok) {
                 throw new Error(`Failed to load vacations: ${response.status} ${response.statusText}`);
             }
@@ -37,6 +43,7 @@ export default function ManageVacations() {
 
     useEffect(() => {
         const user = localStorage.getItem('user');
+        
         if (!user || !JSON.parse(user).isAdmin) { 
             navigate('/login', { replace: true });
             return;
@@ -55,7 +62,7 @@ export default function ManageVacations() {
     // Delete vacation by ID
     const deleteVacation = async (vacationId: string) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/admin/vacations/${vacationId}`, {
+            const response = await fetch(`http://localhost:3000/api/admins/vacations/${vacationId}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {

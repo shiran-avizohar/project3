@@ -37,8 +37,6 @@ export default function Header() {
                   <NavLink to="/admin/manageVacation">Manage Vacations</NavLink>
                   <NavLink to="/admin/reports">Reports</NavLink>
                   <NavLink to="/admin/addVacation">Add Vacation</NavLink>
-                  <NavLink to="/admin/editVacation">Edit Vacation</NavLink>
-                  <NavLink to="/admin/csvDownload">Download CSV</NavLink>
                 </>
               )}
               {user.role !== "admin" && (

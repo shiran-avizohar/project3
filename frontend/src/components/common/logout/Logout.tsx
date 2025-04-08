@@ -7,7 +7,7 @@ const Logout = () => {
         // Remove user data from localStorage
         localStorage.removeItem('user');
         // Navigate to login page after logging out
-        navigate("/login");
+        navigate("/");
     };
 
     return (

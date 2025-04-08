@@ -8,7 +8,6 @@ interface AuthRequest extends Request {
     user?: { id: string; role: string };
 }
 
-// Middleware לבדוק אם המשתמש מחובר
 export function authenticateUser(req: AuthRequest, res: Response, next: NextFunction): void {
     const token = req.header('Authorization');
 
@@ -26,7 +25,6 @@ export function authenticateUser(req: AuthRequest, res: Response, next: NextFunc
     }
 }
 
-// Middleware לבדוק אם המשתמש הוא Admin
 export function authorizeAdmin(req: AuthRequest, res: Response, next: NextFunction): void {
     if (!req.user || req.user.role !== 'admin') {
         res.status(403).json({ message: 'Access denied. Admins only.' });

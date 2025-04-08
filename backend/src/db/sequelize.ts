@@ -32,8 +32,8 @@ const sequelize = new Sequelize({
     username: config.get("db.username"),
     password: config.get("db.password"),
     database: config.get("db.database"),
-    models: [User, Vacation, Follow],  // טוען את כל המודלים הדרושים
-    logging,  // רק אם אקטיב יש Log בקונסול
+    models: [User, Vacation, Follow],
+    logging, 
 });
 
 sequelize.authenticate()
@@ -44,8 +44,7 @@ sequelize.authenticate()
         console.error("Unable to connect to the database:", error);
     });
 
-// אם צריך לסנכרן את המודלים על מנת ליצור את הטבלאות במסד נתונים
-sequelize.sync({ force: false, alter: false })// true יגרום למחוק את הטבלאות כל פעם
+sequelize.sync({ force: false, alter: false })
     .then(() => {
         console.log('Database synced successfully');
     })
