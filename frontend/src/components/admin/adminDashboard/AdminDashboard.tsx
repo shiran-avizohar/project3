@@ -16,7 +16,7 @@ const Dashboard = () => {
         </Link>
         
         <Link to="/admin/manageVacation">
-          <button className="dashboard-button">Manage Vacations</button>
+          <button className="dashboard-button">Vacation Management</button>
         </Link>
 
         <Link to="/admin/reports">

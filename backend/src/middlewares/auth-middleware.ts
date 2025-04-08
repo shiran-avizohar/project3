@@ -8,27 +8,24 @@ interface AuthRequest extends Request {
     user?: { id: string; role: string };
 }
 
-export function authenticateUser(req: AuthRequest, res: Response, next: NextFunction): void {
-    const token = req.header('Authorization');
+export function authenticateUser(req, res, next) {
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.split(" ")[1];
 
-    if (!token) {
-        res.status(401).json({ message: 'Access denied. No token provided.' });
-        return;
-    }
+    if (!token) return res.status(401).json({ message: "Missing token" });
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string; role: string };
-        req.user = decoded;
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded; // ⬅️ זה קריטי
         next();
-    } catch (error) {
-        res.status(400).json({ message: 'Invalid token.' });
+    } catch (err) {
+        return res.status(401).json({ message: "Invalid token" });
     }
 }
 
-export function authorizeAdmin(req: AuthRequest, res: Response, next: NextFunction): void {
-    if (!req.user || req.user.role !== 'admin') {
-        res.status(403).json({ message: 'Access denied. Admins only.' });
-        return;
+export function authorizeAdmin(req, res, next) {
+    if (req.user?.role !== "admin") {
+        return res.status(403).json({ message: "Access denied. Not admin." });
     }
     next();
 }

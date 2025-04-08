@@ -9,7 +9,7 @@
 // import AdminDashboard from "../../admin/adminDashboard/AdminDashboard";
 // import HomePage from "../../common/homePage/HomePage";
 // import Unfollow from "../../user/unfollow/Unfollow";
-// import ManageVacation from "../../admin/manageVacation/ManageVacation";
+// import VacationManagement from "../../admin/manageVacation/VacationManagement";
 
 // // Helper function to check if the user is logged in
 // const isLoggedIn = () => localStorage.getItem("user") !== null;
@@ -50,7 +50,7 @@
 //       />
 //       <Route
 //         path="/admin/manageVacation"
-//         element={isAdmin() ? <ManageVacation /> : <Navigate to="/login" />}
+//         element={isAdmin() ? <VacationManagement /> : <Navigate to="/login" />}
 //       />
 //       <Route
 //         path="/admin/reports"
@@ -110,7 +110,7 @@ import AddVacation from "../../admin/addVacation/AddVacation";
 import AdminDashboard from "../../admin/adminDashboard/AdminDashboard";
 import HomePage from "../../common/homePage/HomePage";
 import Unfollow from "../../user/unfollow/Unfollow";
-import ManageVacation from "../../admin/manageVacation/ManageVacation";
+import VacationManagement from "../../admin/vacationManagement/VacationManagement";
 
 // Helper function to check if the user is logged in
 const isLoggedIn = () => localStorage.getItem("user") !== null;
@@ -151,7 +151,7 @@ export default function Routing(): JSX.Element {
       />
       <Route
         path="/admin/manageVacation"
-        element={isAdmin() ? <ManageVacation /> : <Navigate to="/login" />}
+        element={isAdmin() ? <VacationManagement /> : <Navigate to="/login" />}
       />
       <Route
         path="/admin/reports"
