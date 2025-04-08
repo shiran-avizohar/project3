@@ -9,7 +9,7 @@ const AddVacation = () => {
     startDate: "",
     endDate: "",
     description: "",
-    imageUrl: "",
+    image: null as File | null, // Store image as a file object
   });
 
   // Function to handle changes in the form fields
@@ -19,6 +19,17 @@ const AddVacation = () => {
       ...vacation,
       [name]: value, // Update the specific field based on the input name
     });
+  };
+
+  // Function to handle image upload
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      setVacation({
+        ...vacation,
+        image: file, // Store the file object
+      });
+    }
   };
 
   // Function to handle form submission
@@ -33,7 +44,19 @@ const AddVacation = () => {
       startDate: "",
       endDate: "",
       description: "",
-      imageUrl: "",
+      image: null,
+    });
+  };
+
+  // Function to handle cancel
+  const handleCancel = () => {
+    setVacation({
+      destination: "",
+      price: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+      image: null,
     });
   };
 
@@ -100,20 +123,35 @@ const AddVacation = () => {
           />
         </div>
 
-        {/* Image URL Field */}
+        {/* Image Upload Field */}
         <div className="form-group">
-          <label>Image URL</label>
+          <label>Cover Image</label>
           <input
-            type="text"
-            name="imageUrl"
-            value={vacation.imageUrl}
-            onChange={handleChange}
+            type="file"
+            name="image"
+            accept="image/*" // Accept only image files
+            onChange={handleImageChange}
             required // Make this field required
           />
+          {/* Display the uploaded image */}
+          {vacation.image && (
+            <div className="image-preview">
+              <img
+                src={URL.createObjectURL(vacation.image)} // Display image preview
+                alt="Cover Image"
+                style={{ width: "200px", height: "auto", marginTop: "10px" }}
+              />
+            </div>
+          )}
         </div>
 
         {/* Submit Button */}
         <button type="submit">Add Vacation</button>
+
+        {/* Cancel Button */}
+        <button type="button" className="cancel-button" onClick={handleCancel}>
+          Cancel
+        </button>
       </form>
     </div>
   );
