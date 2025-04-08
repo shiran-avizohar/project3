@@ -9,16 +9,20 @@ const Login = () => {
   const [loginError, setLoginError] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // בדיקה אם המשתמש כבר מחובר
   useEffect(() => {
     const userData = localStorage.getItem("user");
-    if (userData) {
-      setIsLoggedIn(true); // הסתרת הטופס
-      navigate("/user/dashboard"); // מעבר מיידי לעמוד המשתמש
+    if (userData && !isLoggedIn) {
+      const parsedUser = JSON.parse(userData);
+      setIsLoggedIn(true);
+      
+      if (parsedUser.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/user/dashboard");
+      }
     }
-  }, [navigate]);
+  }, [navigate, isLoggedIn]);
 
-  // טיפול בהתחברות
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -38,10 +42,18 @@ const Login = () => {
       const data = await response.json();
       console.log("Login successful:", data);
 
-      localStorage.setItem("user", JSON.stringify(data));
-      setIsLoggedIn(true); // הסתרת הטופס לאחר התחברות
+      // שמירת המידע ב-localStorage
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("token", data.token);
+      setIsLoggedIn(true);
 
-      navigate("/user/dashboard"); // ניתוב לעמוד המשתמש
+      // ניווט למקום המתאים לפי התפקיד
+      if (data.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/user/dashboard");
+      }
+
     } catch (error) {
       console.error("Login error:", error);
       setLoginError(
@@ -50,7 +62,7 @@ const Login = () => {
     }
   };
 
-  // אם המשתמש מחובר, לא מציגים את טופס ההתחברות
+  // אם המשתמש מחובר, אין צורך להציג את הטופס
   if (isLoggedIn) {
     return null;
   }
