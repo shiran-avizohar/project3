@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 // Register function, updated for correct type handling
 export const register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { firstName, lastName, role, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     console.log(req.body);
 
     // Check if the email is already registered
@@ -22,13 +22,14 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
     const newUser = await User.create({
       firstName,
       lastName,
-      role,
       email,
       password: hashedPassword,
+      role: 'user'
     });
 
     // Send success response
-    res.status(201).json({ message: "User registered successfully", user: newUser });
+
+    res.status(201).json({success: true, message: "User registered successfully", user: newUser });
 
   } catch (error) {
     console.error("Registration error:", error);
