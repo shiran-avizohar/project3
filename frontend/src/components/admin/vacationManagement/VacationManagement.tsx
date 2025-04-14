@@ -17,7 +17,7 @@ export default function VacationManagement() {
     const [vacations, setVacations] = useState<Vacation[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [editingVacation, setEditingVacation] = useState<Vacation | null>(null); // State to manage the vacation being edited
+    const [editingVacation, setEditingVacation] = useState<Vacation | null>(null);
     const [formData, setFormData] = useState<Omit<Vacation, 'vacationId'>>({
         vacationDestination: '',
         vacationDateStart: '',
@@ -27,7 +27,16 @@ export default function VacationManagement() {
         vacationDescription: '',
     });
 
-    // Fetching all vacations
+    // 👇 Added state to manage which vacation descriptions are expanded
+    const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
+
+    const toggleDescription = (vacationId: string) => {
+        setExpandedDescriptions((prev) => ({
+            ...prev,
+            [vacationId]: !prev[vacationId],
+        }));
+    };
+
     const fetchVacations = async () => {
         try {
             const response = await fetch('http://localhost:3000/api/users/vacations', {
@@ -52,7 +61,7 @@ export default function VacationManagement() {
     useEffect(() => {
         const user = localStorage.getItem('user');
 
-        if (!user || JSON.parse(user).role !== "admin"){
+        if (!user || JSON.parse(user).role !== "admin") {
             navigate('/login', { replace: true });
             return;
         }
@@ -75,7 +84,7 @@ export default function VacationManagement() {
                 throw new Error(`Failed to delete vacation: ${response.status}`);
             }
 
-            setVacations((prevVacations) => prevVacations.filter((vacation) => vacation.vacationId !== vacationId));
+            setVacations((prev) => prev.filter((vacation) => vacation.vacationId !== vacationId));
             alert('Vacation deleted successfully');
         } catch (err) {
             setError((err as Error).message || 'An error occurred while deleting vacation.');
@@ -83,7 +92,6 @@ export default function VacationManagement() {
     };
 
     const handleEdit = (vacation: Vacation) => {
-        // Set the vacation as the one being edited
         setEditingVacation(vacation);
         setFormData({
             vacationDestination: vacation.vacationDestination,
@@ -97,46 +105,47 @@ export default function VacationManagement() {
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData((prevFormData) => ({
-            ...prevFormData,
+        setFormData((prev) => ({
+            ...prev,
             [name]: value,
         }));
     };
 
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-      
-        const token = localStorage.getItem("token"); // ← ודאי שהטוקן קיים
-      
+
+        const token = localStorage.getItem("token");
+
         if (!token) {
-          setError("Missing authentication token. Please login again.");
-          return;
+            setError("Missing authentication token. Please login again.");
+            return;
         }
-      
+
         if (editingVacation) {
-          try {
-            const response = await fetch(`http://localhost:3000/api/admins/vacations/${editingVacation.vacationId}`, {
-              method: 'PUT',
-              body: JSON.stringify(formData),
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` 
-              },
-            });
-      
-            if (!response.ok) {
-              const data = await response.json();
-              throw new Error(data.message || `Failed to update vacation: ${response.status}`);
+            try {
+                const response = await fetch(`http://localhost:3000/api/admins/vacations/${editingVacation.vacationId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(formData),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.message || `Failed to update vacation: ${response.status}`);
+                }
+
+                alert('Vacation updated successfully');
+                setEditingVacation(null);
+                fetchVacations();
+            } catch (err) {
+                setError((err as Error).message || 'An error occurred while updating vacation.');
             }
-      
-            alert('Vacation updated successfully');
-            setEditingVacation(null); // Clear editing state
-            fetchVacations(); // Refresh vacation list
-          } catch (err) {
-            setError((err as Error).message || 'An error occurred while updating vacation.');
-          }
         }
-      };
+    };
+
     const formatDate = (dateString: string): string => {
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, '0');
@@ -150,10 +159,9 @@ export default function VacationManagement() {
 
     return (
         <div className="manage-vacations-container">
-            <h2>Vacations Management </h2>
+            <h2>Vacations Management</h2>
             <button className="add-vacation-btn" onClick={() => navigate('/admin/addVacation')}>Add New Vacation</button>
 
-            {/* Vacation Edit Form */}
             {editingVacation && (
                 <form onSubmit={handleFormSubmit}>
                     <h3>Edit Vacation</h3>
@@ -197,6 +205,11 @@ export default function VacationManagement() {
                 {vacations.length > 0 ? (
                     vacations.map((vacation) => {
                         const imageSrc = `/images/${vacation.imgFileName}`;
+                        const isExpanded = expandedDescriptions[vacation.vacationId] || false;
+                        const description = isExpanded
+                            ? vacation.vacationDescription
+                            : `${vacation.vacationDescription.slice(0, 150)}...`;
+
                         return (
                             <div key={vacation.vacationId} className="vacation-card">
                                 <div className="vacation-title">{vacation.vacationDestination}</div>
@@ -207,7 +220,15 @@ export default function VacationManagement() {
                                     <span>{formatDate(vacation.vacationDateStart)} - {formatDate(vacation.vacationDateEnd)}</span>
                                 </div>
                                 <div className="vacation-description">
-                                    <p>{vacation.vacationDescription.slice(0, 150)}</p>
+                                    <p>{description}</p>
+                                    {vacation.vacationDescription.length > 150 && (
+                                        <button
+                                            className="toggle-description-btn"
+                                            onClick={() => toggleDescription(vacation.vacationId)}
+                                        >
+                                            {isExpanded ? 'Show less' : 'Read more'}
+                                        </button>
+                                    )}
                                 </div>
                                 <div className="vacation-price">
                                     <span>${vacation.price}</span>

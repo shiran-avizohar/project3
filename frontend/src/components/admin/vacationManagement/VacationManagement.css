@@ -67,7 +67,7 @@
 }
 
 .manage-vacation-price {
-    background-color: #FFA500;
+    background-color: #614a1e;
     color: white;
     padding: 10px;
     text-align: center;
@@ -119,4 +119,20 @@
 
 .manage-vacation-add-button:hover {
     background-color: #218838;
+}
+
+.vacation-description .toggle-description-btn {
+    background: none;
+    color: blue;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    margin-top: 5px;
+}
+
+.vacation-description .toggle-description-btn:hover {
+    background-color: transparent;
+    color: #00aaff;
+    text-decoration: underline;
 }
