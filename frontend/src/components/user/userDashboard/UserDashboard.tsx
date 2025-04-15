@@ -1,4 +1,4 @@
-import './UserDashboard.css'
+import './UserDashboard.css';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -15,10 +15,11 @@ const UserDashboard = () => {
 
   return (
     <div className="user-dashboard-container">
-      <h2 className="user-dashboard-header">User Dashboard</h2>
+      <h2 className="user-dashboard-header">Welcome to DreamTrip</h2>
       <div className="user-dashboard-info">
-        <h3>Welcome, {user?.name || "Guest"}</h3>
-        <p>Your profile and vacation details</p>
+        <h3>Hey {user?.name || "Guest"}!</h3>
+        <p>We're so glad you're here! Get ready to plan your dream vacation with us.</p>
+        <p>Explore, discover, and make your perfect getaway a reality!</p>
       </div>
       <div className="user-dashboard-links">
         {/* Link to the 'Vacations' page */}
