@@ -2,41 +2,44 @@
 import React from 'react';
 import './CsvDownload.css';
 
-// Sample data for demonstration
-const vacationData = [
-  { destination: "Hawaii", followers: 150 },
-  { destination: "Paris", followers: 200 },
-  { destination: "Tokyo", followers: 120 },
-  // Add more vacation data as needed
-];
+// Props interface for the component
+interface CsvDownloadButtonProps {
+  vacationData: {
+    vacationId: string;
+    vacationDestination: string;
+    followers: number;
+    price: number;
+    vacationDateStart: string;
+    vacationDateEnd: string;
+  }[];
+}
 
-// Component to handle CSV export
-const CsvDownloadButton: React.FC = () => {
-  // Function to export data to CSV
+const CsvDownloadButton: React.FC<CsvDownloadButtonProps> = ({ vacationData }) => {
+  // Function to export the data to CSV format
   const exportToCSV = () => {
     // Define the CSV header
     const header = ["Destination", "Followers"];
     
-    // Map through the data and create rows
+    // Map through vacation data and create rows
     const rows = vacationData.map(item => [
-      item.destination,
+      item.vacationDestination,
       item.followers,
     ]);
 
-    // Combine header and rows
+    // Combine the header and the data rows
     const csvContent = [
-      header.join(","),
-      ...rows.map(row => row.join(","))
+      header.join(","),             // "Destination,Followers"
+      ...rows.map(row => row.join(",")) // ["Paris,200", "London,300", ...]
     ].join("\n");
 
     // Create a Blob with the CSV content
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
 
-    // Create a link to download the CSV file
+    // Create a download link and trigger click to download the CSV
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "vacation_report.csv"; // File name for download
-    link.click(); // Trigger the download
+    link.download = "vacation_report.csv"; // Name of the downloaded file
+    link.click();
   };
 
   return (
