@@ -33,19 +33,53 @@ const AddVacation = () => {
   };
 
   // Function to handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Log the vacation details (replace with API call to save the vacation)
-    console.log("Vacation Added:", vacation);
-    // Clear the form fields after submission
-    setVacation({
-      destination: "",
-      price: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-      image: null,
-    });
+
+    // Create FormData to send all the data, including the image
+    const formData = new FormData();
+    formData.append("vacationDestination", vacation.destination);
+    formData.append("price", vacation.price);
+    formData.append("vacationDateStart", vacation.startDate);
+    formData.append("vacationDateEnd", vacation.endDate);
+    formData.append("vacationDescription", vacation.description);
+    if (vacation.image) {
+      formData.append("imgFileName", vacation.image.name);
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      console.log(token)
+      // Send data to the server (API)
+      const response = await fetch("http://localhost:3000/api/admins", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text(); 
+        console.error("Server response:", errorText);
+        throw new Error("Failed to add vacation");
+      }
+
+      // If successful, update the UI
+      alert("Vacation added successfully!");
+      // Clear form fields after submission
+      setVacation({
+        destination: "",
+        price: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+        image: null,
+      });
+    } catch (error) {
+      console.error("Error while adding vacation:", error);
+      alert("There was an error adding the vacation.");
+    }
   };
 
   // Function to handle cancel
