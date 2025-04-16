@@ -27,11 +27,12 @@
 }
 
 .vacation-likes {
-    display: flex; 
+    display: flex;
     font-size: 14px;
-    position: absolute; 
-    left: 10px; 
-    z-index: 5; 
+    position: absolute;
+    top: 10px;      
+    left: 10px;
+    z-index: 5;
 }
 
 .like-button {
@@ -83,8 +84,14 @@
     padding: 10px;
     background-color: #fff;
     font-size: 14px;
-    overflow: visible;
     flex-grow: 1;
+    overflow: hidden;
+    max-height: 150px;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.vacation-description.expanded {
+    max-height: 500px; 
 }
 
 .vacation-description p {
@@ -119,3 +126,6 @@
     font-size: 16px;
     font-weight: bold;
 }
+
+
+
