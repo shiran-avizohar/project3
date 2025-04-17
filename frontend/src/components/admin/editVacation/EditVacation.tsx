@@ -8,12 +8,12 @@ const EditVacation = () => {
 
   // Define state for vacation details
   const [vacation, setVacation] = useState({
-    destination: "",
+    vacationDestination: "",
     price: 0,
-    startDate: "",
-    endDate: "",
-    description: "",
-    imageUrl: "",
+    vacationDateStart: "",
+    vacationDateEnd: "",
+    vacationDescription: "",
+    imgFileName: "",
   });
 
   const [loading, setLoading] = useState(true); // State for loading status
@@ -23,7 +23,9 @@ const EditVacation = () => {
   useEffect(() => {
     const fetchVacationDetails = async () => {
       try {
-        const response = await fetch(`/api/vacations/${id}`);
+        const response = await fetch(
+          `http://localhost:3000/api/admins/vacations/${id}`
+        );
         if (!response.ok) throw new Error("Failed to fetch vacation details");
         const data = await response.json();
         setVacation(data);
@@ -45,13 +47,34 @@ const EditVacation = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Get token from localStorage
+    const token = localStorage.getItem("token"); // Get the token from localStorage
+
+    if (!token) {
+      setError("You need to be logged in to update vacation details");
+      return;
+    }
+
     try {
-      const response = await fetch(`/api/vacations/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(vacation),
-      });
+      console.log(JSON.stringify(vacation))
+      const response = await fetch(
+        `http://localhost:3000/api/admins/vacations/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add token in Authorization header
+          },
+          body: JSON.stringify(vacation),
+        }
+      );
+      const textResponse = await response.text();
+      console.log("Response text:", textResponse);
+
       if (!response.ok) throw new Error("Failed to update vacation");
+
+      // Redirect to admin dashboard after successful update
       navigate("/admin/dashboard");
     } catch (error) {
       console.error(error);
@@ -77,9 +100,9 @@ const EditVacation = () => {
           <label htmlFor="destination">Destination</label>
           <input
             type="text"
-            id="destination"
-            name="destination"
-            value={vacation.destination}
+            id="vacationDestination"
+            name="vacationDestination"
+            value={vacation.vacationDestination}
             onChange={handleChange}
             required
           />
@@ -100,9 +123,9 @@ const EditVacation = () => {
           <label htmlFor="startDate">Start Date</label>
           <input
             type="date"
-            id="startDate"
-            name="startDate"
-            value={vacation.startDate}
+            id="vacationDateStart"
+            name="vacationDateStart"
+            value={vacation.vacationDateStart}
             onChange={handleChange}
             required
           />
@@ -111,9 +134,9 @@ const EditVacation = () => {
           <label htmlFor="endDate">End Date</label>
           <input
             type="date"
-            id="endDate"
-            name="endDate"
-            value={vacation.endDate}
+            id="vacationDateEnd"
+            name="vacationDateEnd"
+            value={vacation.vacationDateEnd}
             onChange={handleChange}
             required
           />
@@ -122,9 +145,9 @@ const EditVacation = () => {
           <label htmlFor="description">Description</label>
           <input
             type="text"
-            id="description"
-            name="description"
-            value={vacation.description}
+            id="vacationDescription"
+            name="vacationDescription"
+            value={vacation.vacationDescription}
             onChange={handleChange}
             required
           />
@@ -133,9 +156,9 @@ const EditVacation = () => {
           <label htmlFor="imageUrl">Image URL</label>
           <input
             type="text"
-            id="imageUrl"
-            name="imageUrl"
-            value={vacation.imageUrl}
+            id="imgFileName"
+            name="imgFileName"
+            value={vacation.imgFileName}
             onChange={handleChange}
             required
           />

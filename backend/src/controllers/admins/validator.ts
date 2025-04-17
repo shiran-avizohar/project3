@@ -11,15 +11,15 @@ export const addVacationValidator = Joi.object({
 
 export const editVacationValidator = Joi.object({
     vacationDestination: Joi.string().max(255).optional(),
-    vacationDescription: Joi.string().max(500).optional(),
+    vacationDescription: Joi.string().max(5000).optional(),
     vacationDateStart: Joi.date().optional(),
     vacationDateEnd: Joi.date().optional(),
+    imgFileName: Joi.string().max(255).required(),
     price: Joi.number().min(0).optional(),
-    imgFileName: Joi.string().max(255).optional()
 });
 
 export const deleteVacationValidator = Joi.object({
-    vacationId: Joi.string().uuid().required() // מוודא שהמזהה הוא UUID תקני
+    vacationId: Joi.string().uuid().required() 
 });
 
 export const getVacationReportsValidator = Joi.object({

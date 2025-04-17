@@ -141,14 +141,12 @@ export default function VacationManagement() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const token = localStorage.getItem("token");
 
     if (!token) {
       setError("Missing authentication token. Please login again.");
       return;
     }
-
     if (editingVacation) {
       try {
         const response = await fetch(
