@@ -149,19 +149,19 @@ export default function Vacations() {
                     alt={vacation.vacationDestination}
                     className="vacation-image"
                   />
-                
-                <div className="vacation-title">
-                  {vacation.vacationDestination}
-                </div>
 
-                {/* Vacation Dates */}
-                <div className="vacation-dates">
-                  <span>
-                    {formatDate(vacation.vacationDateStart)} -{" "}
-                    {formatDate(vacation.vacationDateEnd)}
-                  </span>
+                  <div className="vacation-title">
+                    {vacation.vacationDestination}
+                  </div>
+
+                  {/* Vacation Dates */}
+                  <div className="vacation-dates">
+                    <span>
+                      {formatDate(vacation.vacationDateStart)} -{" "}
+                      {formatDate(vacation.vacationDateEnd)}
+                    </span>
+                  </div>
                 </div>
-</div>
                 {/* Vacation Description */}
                 <div
                   className={`vacation-description ${
@@ -201,3 +201,5 @@ export default function Vacations() {
     </div>
   );
 }
+
+
