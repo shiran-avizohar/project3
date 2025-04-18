@@ -2,14 +2,16 @@
     padding: 20px;
 }
 
-.manage-vacations-list {
+.vacations-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     margin-top: 20px;
+    max-height: 500px;
+    padding-right: 8px; 
 }
 
-.manage-vacation-card {
+.vacation-card {
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
@@ -60,10 +62,23 @@
     font-weight: bold;
 }
 
-.manage-vacation-description {
+.vacation-description {
+    max-height: 100px;
+    overflow-y: auto;
     padding: 10px;
     background-color: #fff;
     font-size: 14px;
+    position: relative;
+}
+  
+.vacation-description.expanded {
+    max-height: 300px;  
+    overflow-y: auto;   
+}
+    
+.vacation-description::-webkit-scrollbar {
+    width: 6px;
+    display: none;
 }
 
 .manage-vacation-price {
@@ -75,13 +90,13 @@
     font-weight: bold;
 }
 
-.manage-vacation-actions {
+.vacation-actions {
     display: flex;
     justify-content: space-between;
     padding: 10px;
 }
 
-.manage-vacation-actions button {
+.vacation-actions button {
     background-color: #007BFF;
     color: white;
     padding: 5px 15px;
@@ -136,5 +151,3 @@
     color: #00aaff;
     text-decoration: underline;
 }
-
-

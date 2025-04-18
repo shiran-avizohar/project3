@@ -251,22 +251,22 @@ export default function VacationManagement() {
 
             return (
               <div key={vacation.vacationId} className="vacation-card">
-                <div className="vacation-title">
-                  {vacation.vacationDestination}
-                </div>
                 <div className="vacation-image-container">
                   <img
                     src={imageSrc}
                     alt={vacation.vacationDestination}
                     className="vacation-image"
                   />
+                <div className="vacation-title">
+                  {vacation.vacationDestination}
+                
                 </div>
                 <div className="vacation-dates">
                   <span>
                     {formatDate(vacation.vacationDateStart)} -{" "}
                     {formatDate(vacation.vacationDateEnd)}
                   </span>
-                </div>
+                </div></div>
                 <div className="vacation-description">
                   <p>{description}</p>
                   {vacation.vacationDescription.length > 150 && (
