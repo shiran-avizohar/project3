@@ -24,8 +24,6 @@ const UserDashboard = () => {
       <div className="user-dashboard-links">
         {/* Link to the 'Vacations' page */}
         <Link to="/user/vacations"><button className="user-dashboard-button">My Vacations</button></Link>
-        {/* Link to the 'Followed Vacations' page */}
-        <Link to="/user/follow"><button className="user-dashboard-button">Followed Vacations</button></Link>
       </div>
     </div>
   );
