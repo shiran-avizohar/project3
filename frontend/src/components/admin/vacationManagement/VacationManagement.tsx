@@ -27,7 +27,6 @@ export default function VacationManagement() {
     vacationDescription: "",
   });
 
-  // 👇 Added state to manage which vacation descriptions are expanded
   const [expandedDescriptions, setExpandedDescriptions] = useState<
     Record<string, boolean>
   >({});
@@ -84,7 +83,7 @@ export default function VacationManagement() {
 
   const deleteVacation = async (vacationId: string) => {
     try {
-      const token = localStorage.getItem("token"); // Get the token from localStorage
+      const token = localStorage.getItem("token");
 
       if (!token) {
         setError("You need to be logged in to update vacation details");
@@ -201,42 +200,51 @@ export default function VacationManagement() {
       </button>
 
       {editingVacation && (
-        <form onSubmit={handleFormSubmit}>
-          <h3>Edit Vacation</h3>
-          <input
-            type="text"
-            name="vacationDestination"
-            value={formData.vacationDestination}
-            onChange={handleFormChange}
-            placeholder="Destination"
-          />
-          <input
-            type="date"
-            name="vacationDateStart"
-            value={formData.vacationDateStart}
-            onChange={handleFormChange}
-          />
-          <input
-            type="date"
-            name="vacationDateEnd"
-            value={formData.vacationDateEnd}
-            onChange={handleFormChange}
-          />
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleFormChange}
-            placeholder="Price"
-          />
-          <textarea
-            name="vacationDescription"
-            value={formData.vacationDescription}
-            onChange={handleFormChange}
-            placeholder="Description"
-          />
-          <button type="submit">Save Changes</button>
-        </form>
+        <div className="edit-vacation-modal">
+          <form onSubmit={handleFormSubmit}>
+            <h3>Edit Vacation</h3>
+            <input
+              type="text"
+              name="vacationDestination"
+              value={formData.vacationDestination}
+              onChange={handleFormChange}
+              placeholder="Destination"
+            />
+            <input
+              type="date"
+              name="vacationDateStart"
+              value={formData.vacationDateStart}
+              onChange={handleFormChange}
+            />
+            <input
+              type="date"
+              name="vacationDateEnd"
+              value={formData.vacationDateEnd}
+              onChange={handleFormChange}
+            />
+            <input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleFormChange}
+              placeholder="Price"
+            />
+            <textarea
+              name="vacationDescription"
+              value={formData.vacationDescription}
+              onChange={handleFormChange}
+              placeholder="Description"
+            />
+            <button type="submit">Save Changes</button>
+            <button
+              type="button"
+              onClick={() => setEditingVacation(null)}
+              className="cancel-btn"
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
       )}
 
       <div className="vacations-list">
@@ -257,16 +265,16 @@ export default function VacationManagement() {
                     alt={vacation.vacationDestination}
                     className="vacation-image"
                   />
-                <div className="vacation-title">
-                  {vacation.vacationDestination}
-                
+                  <div className="vacation-title">
+                    {vacation.vacationDestination}
+                  </div>
+                  <div className="vacation-dates">
+                    <span>
+                      {formatDate(vacation.vacationDateStart)} -{" "}
+                      {formatDate(vacation.vacationDateEnd)}
+                    </span>
+                  </div>
                 </div>
-                <div className="vacation-dates">
-                  <span>
-                    {formatDate(vacation.vacationDateStart)} -{" "}
-                    {formatDate(vacation.vacationDateEnd)}
-                  </span>
-                </div></div>
                 <div className="vacation-description">
                   <p>{description}</p>
                   {vacation.vacationDescription.length > 150 && (
@@ -305,3 +313,5 @@ export default function VacationManagement() {
     </div>
   );
 }
+
+
