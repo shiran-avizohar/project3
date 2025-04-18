@@ -42,17 +42,17 @@ const Login = () => {
       const data = await response.json();
       console.log("Login successful:", data);
 
-      // שמירת המידע ב-localStorage
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
       setIsLoggedIn(true);
 
-      // ניווט למקום המתאים לפי התפקיד
-      if (data.role === "admin") {
+ 
+      if (data.user.role === "admin") {
         navigate("/admin/dashboard");
       } else {
         navigate("/user/dashboard");
       }
+      
 
     } catch (error) {
       console.error("Login error:", error);
