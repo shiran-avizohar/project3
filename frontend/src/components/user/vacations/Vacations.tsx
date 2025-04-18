@@ -21,6 +21,10 @@ export default function Vacations() {
   const [vacations, setVacations] = useState<Vacation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const vacationsPerPage = 10;
 
   const fetchVacations = async () => {
     try {
@@ -115,6 +119,17 @@ export default function Vacations() {
     return `${day}/${month}/${year}`;
   };
 
+  // Pagination logic
+  const indexOfLastVacation = currentPage * vacationsPerPage;
+  const indexOfFirstVacation = indexOfLastVacation - vacationsPerPage;
+  const currentVacations = vacations.slice(indexOfFirstVacation, indexOfLastVacation);
+
+  const totalPages = Math.ceil(vacations.length / vacationsPerPage);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="error-message">{error}</div>;
 
@@ -123,8 +138,8 @@ export default function Vacations() {
       <h2>Vacations</h2>
 
       <div className="vacations-list">
-        {vacations.length > 0 ? (
-          vacations.map((vacation) => {
+        {currentVacations.length > 0 ? (
+          currentVacations.map((vacation) => {
             const imageSrc = `/images/${vacation.imgFileName}`;
             const shortDescription = vacation.vacationDescription.slice(0, 150);
 
@@ -133,9 +148,7 @@ export default function Vacations() {
                 {/* LIKE section */}
                 <div className="vacation-likes">
                   <button
-                    className={`like-button ${
-                      vacation.isUserFollowing ? "liked" : ""
-                    }`}
+                    className={`like-button ${vacation.isUserFollowing ? "liked" : ""}`}
                     onClick={() => toggleFollow(vacation.vacationId)}
                   >
                     ❤️ Like{vacation.likes !== 1 ? "s" : ""} {vacation.likes}
@@ -198,8 +211,25 @@ export default function Vacations() {
           <p>No vacations available at the moment.</p>
         )}
       </div>
+
+      {/* Pagination controls */}
+      <div className="pagination">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
-
-
