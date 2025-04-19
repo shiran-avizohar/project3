@@ -5,13 +5,13 @@ import { authenticateUser } from "../middlewares/auth-middleware";
 
 const router = Router();
 // Route to get all vacations with associated users
-router.get("/vacations", getVacations);
+router.post("/vacations", getVacations);
 
 // Route to allow a user to follow a vacation
 router.post("/follow", authenticateUser, followVacation); 
 
 // Route to allow a user to unfollow a vacation
-router.delete("/unfollow/:vacationId/:userId", unfollowVacation); 
+router.delete("/unfollow/:vacationId/:userId", unfollowVacation);
 
 export default router;
 

@@ -31,7 +31,7 @@ export default function Vacations() {
       const token = localStorage.getItem("token");
       const userData = localStorage.getItem("user");
       const userId = userData ? JSON.parse(userData).id : null;
-        console.log(userData)
+
       const response = await fetch("http://localhost:3000/api/users/vacations", {
         method: "POST", // changed to POST so we can send body
         headers: {
@@ -40,11 +40,11 @@ export default function Vacations() {
         },
         body: JSON.stringify({ userId }), // or also vacationId if needed
       });
-  
+
       if (!response.ok) {
         throw new Error(`Failed to load vacations: ${response.status} ${response.statusText}`);
       }
-  
+
       const data: Vacation[] = await response.json();
       setVacations(data);
     } catch (err) {
@@ -68,16 +68,16 @@ export default function Vacations() {
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
     const userId = userData ? JSON.parse(userData).id : null;
-  
+
     if (!token || !userId) {
       console.error("Missing token or user ID.");
       return;
     }
-  
+
     // Get current state
     const vacation = vacations.find((v) => v.vacationId === vacationId);
     const wasFollowing = vacation?.isUserFollowing ?? false;
-  
+
     // Optimistic UI update
     setVacations((prev) =>
       prev.map((v) =>
@@ -90,14 +90,14 @@ export default function Vacations() {
           : v
       )
     );
-  
+
     try {
       const url = wasFollowing
         ? `http://localhost:3000/api/users/unfollow/${vacationId}/${userId}`
         : "http://localhost:3000/api/users/follow";
-  
+
       const method = wasFollowing ? "DELETE" : "POST";
-  
+
       const response = await fetch(url, {
         method,
         headers: {
@@ -106,13 +106,13 @@ export default function Vacations() {
         },
         ...(wasFollowing ? {} : { body: JSON.stringify({ vacationId, userId }) }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Failed to ${wasFollowing ? "unfollow" : "follow"}`);
       }
     } catch (error) {
       console.error("Toggle follow failed:", error);
-  
+
       // Rollback
       setVacations((prev) =>
         prev.map((v) =>
@@ -126,7 +126,7 @@ export default function Vacations() {
         )
       );
     }
-  }; 
+  };
 
   const toggleDescription = (vacationId: string) => {
     setShowFullDescription((prev) => (prev === vacationId ? null : vacationId));
@@ -166,13 +166,12 @@ export default function Vacations() {
             return (
               <div key={vacation.vacationId} className="vacation-card">
                 <div className="vacation-likes">
-                <button
-                  className={`like-button ${vacation.isUserFollowing ? "liked" : ""}`}
-                  onClick={() => toggleFollow(vacation.vacationId)}
-                >
-                  ❤️ Like{vacation.followers !== 1 ? "s" : ""} {vacation.followers}
-                </button>
-
+                  <button
+                    className={`like-button ${vacation.isUserFollowing ? "liked" : ""}`}
+                    onClick={() => toggleFollow(vacation.vacationId)}
+                  >
+                    ❤️ Like{vacation.followers !== 1 ? "s" : ""} {vacation.followers}
+                  </button>
                 </div>
 
                 <div className="vacation-image-container">
@@ -190,9 +189,7 @@ export default function Vacations() {
                 </div>
 
                 <div
-                  className={`vacation-description ${
-                    showFullDescription === vacation.vacationId ? "expanded" : ""
-                  }`}
+                  className={`vacation-description ${showFullDescription === vacation.vacationId ? "expanded" : ""}`}
                 >
                   <p>
                     {showFullDescription === vacation.vacationId
