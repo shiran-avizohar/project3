@@ -45,21 +45,23 @@ export default function VacationManagement() {
 
   const fetchVacations = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/users/vacations",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
+      const token = localStorage.getItem("token");
+      const userData = localStorage.getItem("user");
+      const userId = userData ? JSON.parse(userData).id : null;
+        console.log(userData)
+      const response = await fetch("http://localhost:3000/api/users/vacations", {
+        method: "POST", // changed to POST so we can send body
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId }), // or also vacationId if needed
+      });
+  
       if (!response.ok) {
-        throw new Error(
-          `Failed to load vacations: ${response.status} ${response.statusText}`
-        );
+        throw new Error(`Failed to load vacations: ${response.status} ${response.statusText}`);
       }
-
+  
       const data: Vacation[] = await response.json();
       setVacations(data);
     } catch (err) {
