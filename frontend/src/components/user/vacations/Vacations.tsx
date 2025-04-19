@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import "./Vacations.css";
 import { useNavigate } from "react-router-dom";
+import "./Vacations.css";
 
 interface Vacation {
   vacationId: string;
@@ -21,37 +21,32 @@ export default function Vacations() {
   const [vacations, setVacations] = useState<Vacation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  
-  // Pagination State
   const [currentPage, setCurrentPage] = useState<number>(1);
   const vacationsPerPage = 10;
+  const [showFullDescription, setShowFullDescription] = useState<string | null>(null);
 
+  // Fetch vacations
   const fetchVacations = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/users/vacations");
-      if (!response.ok) {
-        throw new Error(
-          `Failed to load vacations: ${response.status} ${response.statusText}`
-        );
-      }
-
-      const data: Vacation[] = await response.json();
-      const storedFollowed = JSON.parse(
-        localStorage.getItem("followedVacations") || "[]"
-      );
-
-      const updatedData = data.map((vacation: Vacation) => {
-        const matched = storedFollowed.find(
-          (v: Vacation) => v.vacationId === vacation.vacationId
-        );
-        return {
-          ...vacation,
-          likes: matched?.likes || vacation.likes || 0,
-          isUserFollowing: !!matched,
-        };
+      const token = localStorage.getItem("token");
+      const userData = localStorage.getItem("user");
+      const userId = userData ? JSON.parse(userData).id : null;
+        console.log(userData)
+      const response = await fetch("http://localhost:3000/api/users/vacations", {
+        method: "POST", // changed to POST so we can send body
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId }), // or also vacationId if needed
       });
-
-      setVacations(updatedData);
+  
+      if (!response.ok) {
+        throw new Error(`Failed to load vacations: ${response.status} ${response.statusText}`);
+      }
+  
+      const data: Vacation[] = await response.json();
+      setVacations(data);
     } catch (err) {
       setError((err as Error).message || "An unknown error occurred.");
     } finally {
@@ -69,46 +64,72 @@ export default function Vacations() {
     fetchVacations();
   }, [navigate]);
 
-  const toggleFollow = (vacationId: string) => {
+  const toggleFollow = async (vacationId: string) => {
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
+    const userId = userData ? JSON.parse(userData).id : null;
+  
+    if (!token || !userId) {
+      console.error("Missing token or user ID.");
+      return;
+    }
+  
+    // Get current state
+    const vacation = vacations.find((v) => v.vacationId === vacationId);
+    const wasFollowing = vacation?.isUserFollowing ?? false;
+  
+    // Optimistic UI update
     setVacations((prev) =>
       prev.map((v) =>
         v.vacationId === vacationId
           ? {
               ...v,
               isUserFollowing: !v.isUserFollowing,
-              likes: v.isUserFollowing ? v.likes - 1 : v.likes + 1,
+              followers: v.isUserFollowing ? v.followers - 1 : v.followers + 1,
             }
           : v
       )
     );
-
-    const followed = JSON.parse(
-      localStorage.getItem("followedVacations") || "[]"
-    );
-    const vacation = vacations.find((v) => v.vacationId === vacationId);
-    if (!vacation) return;
-
-    const isAlreadyFollowed = followed.some(
-      (v: Vacation) => v.vacationId === vacationId
-    );
-
-    const updatedFollowed = isAlreadyFollowed
-      ? followed.filter((v: Vacation) => v.vacationId !== vacationId)
-      : [...followed, { ...vacation, likes: vacation.likes + 1 }];
-
-    localStorage.setItem("followedVacations", JSON.stringify(updatedFollowed));
-  };
-
-  const [showFullDescription, setShowFullDescription] = useState<string | null>(
-    null
-  );
+  
+    try {
+      const url = wasFollowing
+        ? `http://localhost:3000/api/users/unfollow/${vacationId}/${userId}`
+        : "http://localhost:3000/api/users/follow";
+  
+      const method = wasFollowing ? "DELETE" : "POST";
+  
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        ...(wasFollowing ? {} : { body: JSON.stringify({ vacationId, userId }) }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to ${wasFollowing ? "unfollow" : "follow"}`);
+      }
+    } catch (error) {
+      console.error("Toggle follow failed:", error);
+  
+      // Rollback
+      setVacations((prev) =>
+        prev.map((v) =>
+          v.vacationId === vacationId
+            ? {
+                ...v,
+                isUserFollowing: wasFollowing,
+                followers: wasFollowing ? v.followers + 1 : v.followers - 1,
+              }
+            : v
+        )
+      );
+    }
+  }; 
 
   const toggleDescription = (vacationId: string) => {
-    if (showFullDescription === vacationId) {
-      setShowFullDescription(null);
-    } else {
-      setShowFullDescription(vacationId);
-    }
+    setShowFullDescription((prev) => (prev === vacationId ? null : vacationId));
   };
 
   const formatDate = (dateString: string): string => {
@@ -119,11 +140,10 @@ export default function Vacations() {
     return `${day}/${month}/${year}`;
   };
 
-  // Pagination logic
+  // Pagination
   const indexOfLastVacation = currentPage * vacationsPerPage;
   const indexOfFirstVacation = indexOfLastVacation - vacationsPerPage;
   const currentVacations = vacations.slice(indexOfFirstVacation, indexOfLastVacation);
-
   const totalPages = Math.ceil(vacations.length / vacationsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
@@ -145,42 +165,33 @@ export default function Vacations() {
 
             return (
               <div key={vacation.vacationId} className="vacation-card">
-                {/* LIKE section */}
                 <div className="vacation-likes">
-                  <button
-                    className={`like-button ${vacation.isUserFollowing ? "liked" : ""}`}
-                    onClick={() => toggleFollow(vacation.vacationId)}
-                  >
-                    ❤️ Like{vacation.likes !== 1 ? "s" : ""} {vacation.likes}
-                  </button>
+                <button
+                  className={`like-button ${vacation.isUserFollowing ? "liked" : ""}`}
+                  onClick={() => toggleFollow(vacation.vacationId)}
+                >
+                  ❤️ Like{vacation.followers !== 1 ? "s" : ""} {vacation.followers}
+                </button>
+
                 </div>
 
-                {/* Vacation Image */}
                 <div className="vacation-image-container">
                   <img
                     src={imageSrc}
                     alt={vacation.vacationDestination}
                     className="vacation-image"
                   />
-
-                  <div className="vacation-title">
-                    {vacation.vacationDestination}
-                  </div>
-
-                  {/* Vacation Dates */}
+                  <div className="vacation-title">{vacation.vacationDestination}</div>
                   <div className="vacation-dates">
                     <span>
-                      {formatDate(vacation.vacationDateStart)} -{" "}
-                      {formatDate(vacation.vacationDateEnd)}
+                      {formatDate(vacation.vacationDateStart)} - {formatDate(vacation.vacationDateEnd)}
                     </span>
                   </div>
                 </div>
-                {/* Vacation Description */}
+
                 <div
                   className={`vacation-description ${
-                    showFullDescription === vacation.vacationId
-                      ? "expanded"
-                      : ""
+                    showFullDescription === vacation.vacationId ? "expanded" : ""
                   }`}
                 >
                   <p>
@@ -193,14 +204,11 @@ export default function Vacations() {
                       onClick={() => toggleDescription(vacation.vacationId)}
                       className="read-more"
                     >
-                      {showFullDescription === vacation.vacationId
-                        ? "Show Less"
-                        : "Read More"}
+                      {showFullDescription === vacation.vacationId ? "Show Less" : "Read More"}
                     </button>
                   )}
                 </div>
 
-                {/* Vacation Price */}
                 <div className="vacation-price">
                   <span>${vacation.price}</span>
                 </div>
@@ -212,12 +220,8 @@ export default function Vacations() {
         )}
       </div>
 
-      {/* Pagination controls */}
       <div className="pagination">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
+        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
           Prev
         </button>
         <span>
