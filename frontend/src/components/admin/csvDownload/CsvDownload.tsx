@@ -1,4 +1,3 @@
-// CsvDownloadButton.tsx
 import React from 'react';
 import './CsvDownload.css';
 
@@ -28,8 +27,8 @@ const CsvDownloadButton: React.FC<CsvDownloadButtonProps> = ({ vacationData }) =
 
     // Combine the header and the data rows
     const csvContent = [
-      header.join(","),             // "Destination,Followers"
-      ...rows.map(row => row.join(",")) // ["Paris,200", "London,300", ...]
+      header.join(","),            
+      ...rows.map(row => row.join(",")) 
     ].join("\n");
 
     // Create a Blob with the CSV content
@@ -37,8 +36,9 @@ const CsvDownloadButton: React.FC<CsvDownloadButtonProps> = ({ vacationData }) =
 
     // Create a download link and trigger click to download the CSV
     const link = document.createElement("a");
+    const timestamp = new Date().toISOString().split("T")[0]; 
     link.href = URL.createObjectURL(blob);
-    link.download = "vacation_report.csv"; // Name of the downloaded file
+    link.download = `vacation_report_${timestamp}.csv`; 
     link.click();
   };
 
