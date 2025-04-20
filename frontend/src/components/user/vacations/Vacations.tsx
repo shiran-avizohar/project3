@@ -26,7 +26,15 @@ export default function Vacations() {
   const vacationsPerPage = 10;
   const [filterOption, setFilterOption] = useState<string>("");
 
-  // Fetch vacations
+  const [expandedDescriptions, setExpandedDescriptions] = useState<{ [key: string]: boolean }>({});
+
+  const toggleDescription = (vacationId: string) => {
+    setExpandedDescriptions(prev => ({
+      ...prev,
+      [vacationId]: !prev[vacationId]
+    }));
+  };
+
   const fetchVacations = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -53,7 +61,7 @@ export default function Vacations() {
 
       const data: Vacation[] = await response.json();
       setVacations(data);
-      setFilteredVacations(data); // Initially show all vacations
+      setFilteredVacations(data);
     } catch (err) {
       setError((err as Error).message || "An unknown error occurred.");
     } finally {
@@ -93,11 +101,11 @@ export default function Vacations() {
         });
         break;
       default:
-        filtered = vacations; // Show all vacations when no filter is selected
+        filtered = vacations;
     }
 
     setFilteredVacations(filtered);
-    setCurrentPage(1); // Reset to first page when applying filters
+    setCurrentPage(1);
   }, [filterOption, vacations]);
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -150,8 +158,7 @@ export default function Vacations() {
       <div className="vacations-list">
         {currentVacations.length > 0 ? (
           currentVacations.map((vacation) => {
-            const imageSrc = `/images/${vacation.imgFileName}`;
-            const shortDescription = vacation.vacationDescription.slice(0, 150);
+            const imageSrc = `http://localhost:3000/images/${vacation.imgFileName}`;
 
             return (
               <div key={vacation.vacationId} className="vacation-card">
@@ -181,7 +188,19 @@ export default function Vacations() {
                 </div>
 
                 <div className="vacation-description">
-                  <p>{shortDescription}</p>
+                  <p>
+                    {expandedDescriptions[vacation.vacationId]
+                      ? vacation.vacationDescription
+                      : vacation.vacationDescription.slice(0, 150) + (vacation.vacationDescription.length > 150 ? "..." : "")}
+                  </p>
+                  {vacation.vacationDescription.length > 150 && (
+                    <button
+                      onClick={() => toggleDescription(vacation.vacationId)}
+                      className="toggle-description-btn"
+                    >
+                      {expandedDescriptions[vacation.vacationId] ? "Read Less" : "Read More"}
+                    </button>
+                  )}
                 </div>
 
                 <div className="vacation-price">

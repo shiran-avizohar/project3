@@ -77,7 +77,12 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
-
+.vacations-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* יצירת גריד אחיד */
+    gap: 20px;
+    padding: 20px;
+}
 .vacation-dates {
     background-color: #ADD8E6;
     padding: 10px;
