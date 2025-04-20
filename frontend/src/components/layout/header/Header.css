@@ -1,97 +1,68 @@
-/* Header.css */
-
-/* General container for the header */
 .Header {
-    display: flex; /* Use flexbox for alignment */
-    justify-content: space-between; /* Space out the logo and navigation */
-    align-items: center; /* Vertically align items */
-    padding: 10px 20px; /* Padding for spacing */
-    background-color: #f4f4f4; /* Light background color for the header */
-    border-bottom: 1px solid #ddd; /* Bottom border to separate the header */
-    max-width: 100%; /* Ensure it takes up the full width */
-    box-sizing: border-box; /* Box-sizing for padding */
-}
-
-/* Styling the logo */
-.Header img {
-    max-width: 180px; /* Limit the logo width for large screens */
-    height: auto; /* Maintain aspect ratio */
-    margin-right: 20px; /* Space between the logo and navigation */
-}
-
-/* Navigation styling */
-.Header nav {
-    display: flex; /* Align navigation items horizontally */
-    gap: 20px; /* Add space between the links */
-}
-
-/* Styling for NavLinks */
-.Header nav a {
-    text-decoration: none; /* Remove underline from links */
-    color: #333; /* Dark text color */
-    font-size: 16px; /* Set the font size */
-    font-weight: 500; /* Slightly bolder font for links */
-    transition: color 0.3s; /* Smooth color change transition */
-}
-
-.Header nav a:hover {
-    color: #007bff; /* Change color on hover */
-}
-
-/* Tablet and below: Smaller screens */
-@media (max-width: 1024px) {
-    .Header {
-        padding: 15px 10px; /* Adjust padding for smaller screens */
-    }
-
-    .Header img {
-        max-width: 150px; /* Adjust logo size */
-        margin-right: 10px; /* Adjust margin between logo and nav */
-    }
-
-    .Header nav {
-        gap: 15px; /* Reduce space between nav links */
-    }
-
-    .Header nav a {
-        font-size: 14px; /* Smaller font for smaller screens */
-    }
-}
-
-/* Mobile view: Adjustments for smaller mobile screens */
-@media (max-width: 768px) {
-    .Header {
-        flex-direction: column; /* Stack the logo and navigation vertically */
-        align-items: center; /* Center items */
-        padding: 15px; /* Adjust padding for smaller screens */
-    }
-
-    .Header nav {
-        flex-direction: column; /* Stack navigation items vertically */
-        gap: 10px; /* Reduce space between links */
-    }
-
-    .Header img {
-        max-width: 120px; /* Reduce logo size */
-        margin-bottom: 10px; /* Space between logo and navigation */
-    }
-
-    .Header nav a {
-        font-size: 14px; /* Smaller font size for mobile */
-    }
-}
-
-/* Extra small mobile view (portrait mode on very small phones) */
-@media (max-width: 480px) {
-    .Header {
-        padding: 10px; /* Less padding on very small screens */
-    }
-
-    .Header img {
-        max-width: 100px; /* Further reduce logo size */
-    }
-
-    .Header nav a {
-        font-size: 12px; /* Further reduce font size for very small screens */
-    }
-}
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #00bcd4;
+    padding: 0 60px;
+    height: 100px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+  }
+  
+  .Header img {
+    height: 80px;
+  }
+  
+  nav {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: #FFA500;
+    font-weight: 700;
+    font-size: 22px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  nav a:hover {
+    background-color: #4dd0e1;
+    color: white;
+  }
+  
+  nav a.active {
+    background-color: #FFA500;
+    color: white;
+  }
+  
+  button {
+    background-color: transparent;
+    border: 2px solid #FFA500;
+    border-radius: 6px;
+    padding: 8px 14px;
+    color: #FFA500;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #FFA500;
+    color: white;
+  }
+  
+  .user-info {
+    font-weight: 600;
+    color: #0288d1;
+    margin-right: 20px;
+    font-size: 16px;
+  }
+  
