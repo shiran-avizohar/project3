@@ -41,7 +41,7 @@ export default function Header() {
               {user.role === "admin" && (
                 <>
                   <NavLink to="/admin/adminDashboard">Home</NavLink>
-                  <NavLink to="/admin/VacationManagement">Vacation Management</NavLink>
+                  <NavLink to="/admin/VacationManagement">Vacation <br></br> Management</NavLink>
                   <NavLink to="/admin/reports">Reports</NavLink>
                   <NavLink to="/admin/addVacation">Add Vacation</NavLink>
                 </>
