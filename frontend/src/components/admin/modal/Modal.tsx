@@ -111,6 +111,13 @@ const Modal: React.FC<ModalProps> = ({
                 className="current-image"
               />
             )}
+            {!filePreview && vacation.imgFileName && (
+              <img
+                src={`http://localhost:3000/uploads/${vacation.imgFileName}`}
+                alt="Vacation"
+                className="current-image"
+              />
+            )}
           </div>
 
           <button type="submit">Save Changes</button>
