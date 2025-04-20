@@ -14,7 +14,7 @@
 .follow-vacation-header {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #ff7f50; /* Similar to the button color */
+  color: #FFA500; /* Similar to the button color */
   text-align: center;
 }
 
@@ -42,7 +42,7 @@
 /* Button styling */
 .follow-action-button {
   padding: 12px 20px;
-  background-color: #ff7f50; /* Orange color like the user dashboard button */
+  background-color: #FFA500; /* Orange color like the user dashboard button */
   color: white;
   border: none;
   border-radius: 5px;
@@ -55,7 +55,7 @@
 
 /* Button hover effect */
 .follow-action-button:hover {
-  background-color: #ff6347; /* Slightly darker orange on hover */
+  background-color: #FFA500; /* Slightly darker orange on hover */
 }
 
 /* Layout for vacation actions (buttons) */
@@ -68,7 +68,7 @@
 /* Loading state */
 .loading {
   text-align: center;
-  color: #ff7f50;
+  color: #FFA500;
   font-size: 1.2rem;
   margin-top: 30px;
 }
