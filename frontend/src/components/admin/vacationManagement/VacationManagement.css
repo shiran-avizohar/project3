@@ -1,11 +1,11 @@
 /* ===== Wrapper & Layout ===== */
-.manage-vacations-wrapper {
+.manage-vacation-dates {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-.manage-vacations-container {
+.vacations-container {
     padding: 20px;
     padding-bottom: 120px;
     position: relative;
@@ -35,33 +35,52 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* margin-bottom: 20px; */
 }
 
-.manage-vacation-card:hover {
+.vacation-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* תמונה שתכסה את כל השטח של הכרטיס מבלי לעוות אותה */
+    object-position: center center;  /* התמונה תישאר ממורכזת */
+}
+.vacation-card:hover {
     transform: scale(1.05);
 }
 
-.manage-vacation-title {
-    font-size: 18px;
-    font-weight: bold;
-    padding: 10px;
-    background-color: #f0f0f0;
-    text-align: left;
-}
-
-.manage-vacation-image-container {
+/* ===== Vacation Image ===== */
+.vacation-image-container {
+    position: relative;
     width: 100%;
     height: 200px;
     overflow: hidden;
 }
 
-.manage-vacation-image {
+.vacation-image {
     width: 100%;
-    height: auto;
+    height: 100px;
     object-fit: cover;
 }
 
-.manage-vacation-dates {
+/* ===== Vacation Title Above Dates (Fixed Above Date Section) ===== */
+.vacation-title {
+    position: absolute;
+    bottom: 2px; /* בדיוק מעל המלבן של התאריכים */
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px 8px;
+    z-index: 2;
+}
+/* ===== Vacation Dates ===== */
+.vacation-dates {
     background-color: #ADD8E6;
     padding: 10px;
     text-align: center;
@@ -69,8 +88,9 @@
     font-weight: bold;
 }
 
-.manage-vacation-price {
-    background-color: #614a1e;
+/* ===== Vacation Price ===== */
+.vacation-price {
+    background-color: #FFA500;
     color: white;
     padding: 10px;
     text-align: center;
@@ -79,7 +99,7 @@
 }
 
 /* ===== Likes (hidden for admin) ===== */
-.manage-vacation-likes {
+.vacation-likes {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -87,8 +107,6 @@
     font-size: 14px;
     visibility: hidden;
 }
-
-/* ===== Description ===== */
 .vacation-description {
     max-height: 100px;
     overflow-y: auto;
@@ -97,18 +115,36 @@
     font-size: 14px;
     position: relative;
 }
+  
 
-.vacation-description.expanded {
-    max-height: 300px;
+    
+/* ===== Description ===== */
+.vacation-description {
+    max-height: 100px;
     overflow-y: auto;
+    padding: 10px;
+    background-color: #fff;
+    font-size: 14px;
+    position: relative;
+    transition: height 0.3s ease-in-out; /* הנפשה כדי שהתיאור ייפתח בצורה חלקה */
+  }
+  
+  .vacation-description.expanded {
+    max-height: 300px;  
+    overflow-y: auto;   
 }
-
-.vacation-description::-webkit-scrollbar {
+  
+  .vacation-description.expanded::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  
+  .vacation-description::-webkit-scrollbar {
     width: 6px;
     display: none;
-}
-
-.vacation-description .toggle-description-btn {
+  }
+  
+  .vacation-description .toggle-description-btn {
     background: none;
     color: blue;
     border: none;
@@ -116,34 +152,11 @@
     font-size: 0.9rem;
     text-decoration: underline;
     margin-top: 5px;
-}
-
-.vacation-description .toggle-description-btn:hover {
-    background-color: transparent;
-    color: #00aaff;
-    text-decoration: underline;
-}
-
-/* ===== Actions ===== */
-.vacation-actions {
-    display: flex;
-    justify-content: space-between;
-    padding: 2px;
-}
-
-.vacation-actions button {
-    background-color: #007BFF;
-    color: white;
-    /* padding: 5px 15px; */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
+  }
+  
 
 /* ===== Add Button ===== */
-.manage-vacation-add-button {
+.vacation-add-button {
     background-color: #28a745;
     color: white;
     padding: 10px 20px;
@@ -156,7 +169,7 @@
     transition: background-color 0.3s ease;
 }
 
-.manage-vacation-add-button:hover {
+.vacation-add-button:hover {
     background-color: #218838;
 }
 
@@ -216,6 +229,7 @@
     background-color: #dcdcdc;
     cursor: not-allowed;
 }
+
 .modal-content {
     width: 60%; 
     max-width: 800px; 
@@ -227,46 +241,49 @@
     overflow-y: auto; 
     padding: 20px;
     box-sizing: border-box;
-  }
-  
-  .vacation-image-container {
+}
+
+/* Vacation Image Styles */
+.vacation-image-container {
+    position: relative;
     width: 100%;
+    height: 200px;
     overflow: hidden;
-    margin-bottom: 20px; 
-  }
-  
-  .vacation-image {
+}
+
+.vacation-image {
     width: 100%; 
     height: auto; 
     object-fit: cover; 
     border-radius: 8px;
-  }
-  
-  .form-group {
+}
+
+/* Form Styles */
+.form-group {
     margin-bottom: 15px;
-  }
-  
-  label {
+}
+
+label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-  }
-  
-  input,
-  textarea {
+}
+
+input,
+textarea {
     width: 100%;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-  }
-  
-  input[type="file"] {
+}
+
+input[type="file"] {
     padding: 3px;
-  }
-  
-  button {
+}
+
+button {
     padding: 10px 15px;
     background-color: #007bff;
     color: white;
@@ -274,17 +291,16 @@
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #0056b3;
-  }
-  
-  .cancel-btn {
-    background-color: #ff9800
-  }
-  
-  .cancel-btn:hover {
+}
+
+.cancel-btn {
+    background-color: #ff9800;
+}
+
+.cancel-btn:hover {
     background-color: #b3843d;
-  }
-  
+}

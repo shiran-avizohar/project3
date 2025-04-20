@@ -32,7 +32,7 @@ export default function VacationManagement() {
   const [expandedDescriptions, setExpandedDescriptions] = useState<
     Record<string, boolean>
   >({});
-  
+
   const [currentPage, setCurrentPage] = useState<number>(1); // מספר הדף הנוכחי
   const [vacationsPerPage] = useState<number>(10); // מספר חופשות פר דף
 
@@ -48,20 +48,25 @@ export default function VacationManagement() {
       const token = localStorage.getItem("token");
       const userData = localStorage.getItem("user");
       const userId = userData ? JSON.parse(userData).id : null;
-        console.log(userData)
-      const response = await fetch("http://localhost:3000/api/users/vacations", {
-        method: "POST", // changed to POST so we can send body
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ userId }), // or also vacationId if needed
-      });
-  
+      console.log(userData);
+      const response = await fetch(
+        "http://localhost:3000/api/users/vacations",
+        {
+          method: "POST", // changed to POST so we can send body
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ userId }), // or also vacationId if needed
+        }
+      );
+
       if (!response.ok) {
-        throw new Error(`Failed to load vacations: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `Failed to load vacations: ${response.status} ${response.statusText}`
+        );
       }
-  
+
       const data: Vacation[] = await response.json();
       setVacations(data);
     } catch (err) {
@@ -163,7 +168,10 @@ export default function VacationManagement() {
       return;
     }
     if (editingVacation) {
-      const updatedData = { ...formData, imgFileName: selectedImage?.name || formData.imgFileName };
+      const updatedData = {
+        ...formData,
+        imgFileName: selectedImage?.name || formData.imgFileName,
+      };
 
       try {
         const response = await fetch(
@@ -235,80 +243,84 @@ export default function VacationManagement() {
       {editingVacation && (
         <div className="modal-overlay">
           <div className="modal-content">
-          <form onSubmit={handleFormSubmit}>
-  <h3>Edit Vacation</h3>
-  
-  <div className="form-group">
-    <label htmlFor="vacationDestination">Vacation Name:</label>
-    <input
-      type="text"
-      name="vacationDestination"
-      value={formData.vacationDestination}
-      onChange={handleFormChange}
-      placeholder="Enter vacation name"
-    />
-  </div>
+            <form onSubmit={handleFormSubmit}>
+              <h3>Edit Vacation</h3>
 
-  <div className="form-group">
-    <label htmlFor="vacationDateStart">Start Date:</label>
-    <input
-      type="date"
-      name="vacationDateStart"
-      value={formData.vacationDateStart}
-      onChange={handleFormChange}
-    />
-  </div>
+              <div className="form-group">
+                <label htmlFor="vacationDestination">Vacation Name:</label>
+                <input
+                  type="text"
+                  name="vacationDestination"
+                  value={formData.vacationDestination}
+                  onChange={handleFormChange}
+                  placeholder="Enter vacation name"
+                />
+              </div>
 
-  <div className="form-group">
-    <label htmlFor="vacationDateEnd">End Date:</label>
-    <input
-      type="date"
-      name="vacationDateEnd"
-      value={formData.vacationDateEnd}
-      onChange={handleFormChange}
-    />
-  </div>
+              <div className="form-group">
+                <label htmlFor="vacationDateStart">Start Date:</label>
+                <input
+                  type="date"
+                  name="vacationDateStart"
+                  value={formData.vacationDateStart}
+                  onChange={handleFormChange}
+                />
+              </div>
 
-  <div className="form-group">
-    <label htmlFor="price">Price:</label>
-    <input
-      type="number"
-      name="price"
-      value={formData.price}
-      onChange={handleFormChange}
-      placeholder="Enter price"
-    />
-  </div>
+              <div className="form-group">
+                <label htmlFor="vacationDateEnd">End Date:</label>
+                <input
+                  type="date"
+                  name="vacationDateEnd"
+                  value={formData.vacationDateEnd}
+                  onChange={handleFormChange}
+                />
+              </div>
 
-  <div className="form-group">
-    <label htmlFor="vacationDescription">Description:</label>
-    <textarea
-      name="vacationDescription"
-      value={formData.vacationDescription}
-      onChange={handleFormChange}
-      placeholder="Enter vacation description"
-    />
-  </div>
+              <div className="form-group">
+                <label htmlFor="price">Price:</label>
+                <input
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleFormChange}
+                  placeholder="Enter price"
+                />
+              </div>
 
-  <div className="form-group">
-    <label>Update Image</label>
-    {imagePreview && (
-      <div>
-        <img src={imagePreview} alt="Current Preview" width="100%" />
-      </div>
-    )}
-    <input type="file" onChange={handleImageChange} />
-  </div>
+              <div className="form-group">
+                <label htmlFor="vacationDescription">Description:</label>
+                <textarea
+                  name="vacationDescription"
+                  value={formData.vacationDescription}
+                  onChange={handleFormChange}
+                  placeholder="Enter vacation description"
+                />
+              </div>
 
-  <button type="submit">Save Changes</button>
-  <button
-    type="button"
-    onClick={() => setEditingVacation(null)}
-    className="cancel-btn"
-  >
-    Cancel
-  </button>
-</form>
+              <div className="form-group">
+                <label>Update Image</label>
+                {imagePreview && (
+                  <div>
+                    <img
+                      src={imagePreview}
+                      alt="Current Preview"
+                      width="100%"
+                    />
+                  </div>
+                )}
+                <input type="file" onChange={handleImageChange} />
+              </div>
+
+              <button type="submit">Save Changes</button>
+              <button
+                type="button"
+                onClick={() => setEditingVacation(null)}
+                className="cancel-btn"
+              >
+                Cancel
+              </button>
+            </form>
           </div>
         </div>
       )}
@@ -334,12 +346,12 @@ export default function VacationManagement() {
                   <div className="vacation-title">
                     {vacation.vacationDestination}
                   </div>
-                  <div className="vacation-dates">
-                    <span>
-                      {formatDate(vacation.vacationDateStart)} -{" "}
-                      {formatDate(vacation.vacationDateEnd)}
-                    </span>
-                  </div>
+                </div>
+                <div className="vacation-dates">
+                  <span>
+                    {formatDate(vacation.vacationDateStart)} -{" "}
+                    {formatDate(vacation.vacationDateEnd)}
+                  </span>
                 </div>
                 <div className="vacation-description">
                   <p>{description}</p>
@@ -382,8 +394,11 @@ export default function VacationManagement() {
         <button onClick={paginatePrev} disabled={currentPage === 1}>
           Previous
         </button>
-        
-        <button onClick={paginateNext} disabled={indexOfLastVacation >= vacations.length}>
+
+        <button
+          onClick={paginateNext}
+          disabled={indexOfLastVacation >= vacations.length}
+        >
           Next
         </button>
       </div>
