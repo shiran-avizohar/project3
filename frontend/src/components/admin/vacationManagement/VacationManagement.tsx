@@ -212,7 +212,6 @@ export default function VacationManagement() {
     return `${day}/${month}/${year}`;
   };
 
-  // חישוב החופשות המוצגות בדף הנוכחי
   const indexOfLastVacation = currentPage * vacationsPerPage;
   const indexOfFirstVacation = indexOfLastVacation - vacationsPerPage;
   const currentVacations = vacations.slice(
@@ -220,10 +219,8 @@ export default function VacationManagement() {
     indexOfLastVacation
   );
 
-  // דף קודם
   const paginatePrev = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
 
-  // דף הבא
   const paginateNext = () => setCurrentPage((prev) => prev + 1);
 
   if (loading) return <div>Loading...</div>;
