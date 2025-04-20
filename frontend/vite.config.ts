@@ -7,7 +7,7 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         proxy: {
-            '/api': 'http://localhost:3000', // הפניית בקשות ל- /api לשרת ה-Express שלך
+            '/api': 'http://localhost:3000', 
         },
     },
 })

@@ -30,11 +30,10 @@ const Modal: React.FC<ModalProps> = ({
   const [filePreview, setFilePreview] = useState<string | null>(null);
   const [vacationState, setVacationState] = useState(vacation);
 
-  // עדכון ה-state כאשר המודל נפתח
   useEffect(() => {
     if (isOpen) {
       setVacationState({
-        ...vacation, // שימור כל הערכים של ה-vacation
+        ...vacation, 
       });
     }
   }, [isOpen, vacation]);

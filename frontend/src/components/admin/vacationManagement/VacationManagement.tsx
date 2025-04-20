@@ -26,15 +26,15 @@ export default function VacationManagement() {
     imgFileName: "",
     vacationDescription: "",
   });
-  const [selectedImage, setSelectedImage] = useState<File | null>(null); // תמונה חדשה שנבחרה
-  const [imagePreview, setImagePreview] = useState<string | null>(null); // תצוגה מקדימה של התמונה
+  const [selectedImage, setSelectedImage] = useState<File | null>(null); 
+  const [imagePreview, setImagePreview] = useState<string | null>(null); 
 
   const [expandedDescriptions, setExpandedDescriptions] = useState<
     Record<string, boolean>
   >({});
 
-  const [currentPage, setCurrentPage] = useState<number>(1); // מספר הדף הנוכחי
-  const [vacationsPerPage] = useState<number>(10); // מספר חופשות פר דף
+  const [currentPage, setCurrentPage] = useState<number>(1); 
+  const [vacationsPerPage] = useState<number>(10); 
 
   const toggleDescription = (vacationId: string) => {
     setExpandedDescriptions((prev) => ({
@@ -138,7 +138,7 @@ export default function VacationManagement() {
       imgFileName: vacation.imgFileName,
       vacationDescription: vacation.vacationDescription,
     });
-    setImagePreview(`/images/${vacation.imgFileName}`); // מציג תצוגה מקדימה של התמונה הנוכחית
+    setImagePreview(`/images/${vacation.imgFileName}`);
   };
 
   const handleFormChange = (
@@ -155,7 +155,7 @@ export default function VacationManagement() {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       setSelectedImage(file);
-      setImagePreview(URL.createObjectURL(file)); // מציג תצוגה מקדימה של התמונה החדשה
+      setImagePreview(URL.createObjectURL(file)); 
     }
   };
 

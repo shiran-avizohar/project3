@@ -62,7 +62,7 @@ const Login = () => {
     }
   };
 
-  // אם המשתמש מחובר, אין צורך להציג את הטופס
+
   if (isLoggedIn) {
     return null;
   }
