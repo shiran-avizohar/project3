@@ -26,84 +26,42 @@ export async function addVacation(req: Request, res: Response, next: NextFunctio
     }
 }
 
-// export async function editVacation(req: Request, res: Response, next: NextFunction): Promise<void> {
-//     try {
-//         // Extract vacationId from the request parameters
-//         const { vacationId } = req.params;
-//         // Extract updated vacation details from the request body
-//         const { vacationDestination, vacationDescription, vacationDateStart, vacationDateEnd, price, imgFileName } = req.body;
-
-//         // Find the vacation by its ID
-//         const vacationToUpdate = await Vacation.findByPk(vacationId);
-
-//         // If vacation is not found, return 404 (Not Found)
-//         if (!vacationToUpdate) {
-//             res.status(404).json({ message: "Vacation not found" });
-//             return; // End function execution after sending the response
-//         }
-
-//         // Update vacation details
-//         vacationToUpdate.vacationDestination = vacationDestination || vacationToUpdate.vacationDestination;
-//         vacationToUpdate.vacationDescription = vacationDescription || vacationToUpdate.vacationDescription;
-//         vacationToUpdate.vacationDateStart = vacationDateStart || vacationToUpdate.vacationDateStart;
-//         vacationToUpdate.vacationDateEnd = vacationDateEnd || vacationToUpdate.vacationDateEnd;
-//         vacationToUpdate.price = price || vacationToUpdate.price;
-//         vacationToUpdate.imgFileName = imgFileName || vacationToUpdate.imgFileName;
-
-        
-//         // Save the updated vacation to the database
-//         await vacationToUpdate.save();
-
-//         // Send the updated vacation details as a response
-//         res.status(200).json(vacationToUpdate);
-//     } catch (e) {
-//         // If an error occurs, pass it to the next error handler
-//         next(e);
-//     }
-// }
-
-interface MulterRequest extends Request {
-    file?: Express.Multer.File;
-  }
-  
-  export async function editVacation(req: MulterRequest, res: Response, next: NextFunction): Promise<void> {
+export async function editVacation(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { vacationId } = req.params;
-      const {
-        vacationDestination,
-        vacationDescription,
-        vacationDateStart,
-        vacationDateEnd,
-        price,
-      } = req.body;
-  
-      // נביא את החופשה הקיימת
-      const vacationToUpdate = await Vacation.findByPk(vacationId);
-  
-      if (!vacationToUpdate) {
-        res.status(404).json({ message: "Vacation not found" });
-        return;
-      }
-  
-      // נעדכן את הערכים - אם לא נשלח ערך, נשמור את הקיים
-      vacationToUpdate.vacationDestination = vacationDestination || vacationToUpdate.vacationDestination;
-      vacationToUpdate.vacationDescription = vacationDescription || vacationToUpdate.vacationDescription;
-      vacationToUpdate.vacationDateStart = vacationDateStart || vacationToUpdate.vacationDateStart;
-      vacationToUpdate.vacationDateEnd = vacationDateEnd || vacationToUpdate.vacationDateEnd;
-      vacationToUpdate.price = price || vacationToUpdate.price;
-  
-      // אם התקבלה תמונה חדשה - נעדכן את השם שלה
-      if (req.file) {
-        vacationToUpdate.imgFileName = req.file.filename;
-      }
-  
-      await vacationToUpdate.save();
-      res.status(200).json(vacationToUpdate);
+        console.log(111)
+        // Extract vacationId from the request parameters
+        const { vacationId } = req.params;
+        // Extract updated vacation details from the request body
+        const { vacationDestination, vacationDescription, vacationDateStart, vacationDateEnd, price, imgFileName } = req.body;
+
+        // Find the vacation by its ID
+        const vacationToUpdate = await Vacation.findByPk(vacationId);
+
+        // If vacation is not found, return 404 (Not Found)
+        if (!vacationToUpdate) {
+            res.status(404).json({ message: "Vacation not found" });
+            return; // End function execution after sending the response
+        }
+
+        // Update vacation details
+        vacationToUpdate.vacationDestination = vacationDestination || vacationToUpdate.vacationDestination;
+        vacationToUpdate.vacationDescription = vacationDescription || vacationToUpdate.vacationDescription;
+        vacationToUpdate.vacationDateStart = vacationDateStart || vacationToUpdate.vacationDateStart;
+        vacationToUpdate.vacationDateEnd = vacationDateEnd || vacationToUpdate.vacationDateEnd;
+        vacationToUpdate.price = price || vacationToUpdate.price;
+        vacationToUpdate.imgFileName = imgFileName || vacationToUpdate.imgFileName;
+
+        // Save the updated vacation to the database
+        await vacationToUpdate.save();
+
+        // Send the updated vacation details as a response
+        res.status(200).json(vacationToUpdate);
     } catch (e) {
-      next(e);
+        // If an error occurs, pass it to the next error handler
+        next(e);
     }
-  }
-  
+}
+
 export async function deleteVacation(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         // Extract vacationId from the request parameters
