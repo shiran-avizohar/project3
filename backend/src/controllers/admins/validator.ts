@@ -14,7 +14,7 @@ export const editVacationValidator = Joi.object({
     vacationDescription: Joi.string().max(5000).optional(),
     vacationDateStart: Joi.date().optional(),
     vacationDateEnd: Joi.date().optional(),
-    imgFileName: Joi.string().max(255).required(),
+    imgFileName: Joi.string().max(255).optional(),
     price: Joi.number().min(0).optional(),
 });
 

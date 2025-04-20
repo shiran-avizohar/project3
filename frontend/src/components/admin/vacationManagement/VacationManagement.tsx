@@ -159,50 +159,55 @@ export default function VacationManagement() {
     }
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = localStorage.getItem("token");
+const handleFormSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  const token = localStorage.getItem("token");
 
-    if (!token) {
-      setError("Missing authentication token. Please login again.");
-      return;
+  if (!token) {
+    setError("Missing authentication token. Please login again.");
+    return;
+  }
+
+  if (editingVacation) {
+    const form = new FormData();
+    form.append("vacationDestination", formData.vacationDestination);
+    form.append("vacationDateStart", formData.vacationDateStart);
+    form.append("vacationDateEnd", formData.vacationDateEnd);
+    form.append("price", String(formData.price));
+    form.append("vacationDescription", formData.vacationDescription);
+
+    if (selectedImage) {
+      form.append("image", selectedImage); // 👈 Upload actual file
     }
-    if (editingVacation) {
-      const updatedData = {
-        ...formData,
-        imgFileName: selectedImage?.name || formData.imgFileName,
-      };
 
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/admins/vacations/${editingVacation.vacationId}`,
-          {
-            method: "PUT",
-            body: JSON.stringify(updatedData),
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          const data = await response.json();
-          throw new Error(
-            data.message || `Failed to update vacation: ${response.status}`
-          );
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/admins/vacations/${editingVacation.vacationId}`,
+        {
+          method: "PUT",
+          body: form,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
+      );
 
-        alert("Vacation updated successfully");
-        setEditingVacation(null);
-        fetchVacations();
-      } catch (err) {
-        setError(
-          (err as Error).message || "An error occurred while updating vacation."
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(
+          data.message || `Failed to update vacation: ${response.status}`
         );
       }
+
+      alert("Vacation updated successfully");
+      setEditingVacation(null);
+      fetchVacations();
+    } catch (err) {
+      setError((err as Error).message || "An error occurred while updating vacation.");
     }
-  };
+  }
+};
+
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -325,7 +330,7 @@ export default function VacationManagement() {
       <div className="vacations-list">
         {currentVacations.length > 0 ? (
           currentVacations.map((vacation) => {
-            const imageSrc = `/images/${vacation.imgFileName}`;
+            const imageSrc = `http://localhost:3000/images/${vacation.imgFileName}`;
             const isExpanded =
               expandedDescriptions[vacation.vacationId] || false;
             const description = isExpanded

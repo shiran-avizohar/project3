@@ -12,7 +12,7 @@ import cors from 'cors'
 const port = config.get<string>('app.port')
 const name = config.get<string>('app.name')
 const force = config.get<boolean>('sequelize.sync.force')
-
+const path = require('path');
 const app = express();
 
 (async () => {
@@ -20,6 +20,7 @@ const app = express();
         await sequelize.sync({ force }) // ensure sequelize syncs first
 
         // middlewares
+        app.use('/images', express.static('uploads'));
         app.use(cors()) // allow any client to use this server
         app.use(json()) // middleware to handle JSON payloads
 
