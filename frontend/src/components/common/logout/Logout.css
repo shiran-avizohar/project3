@@ -1,0 +1,48 @@
+/* General styles for the logout page */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Container for logout section */
+.logout-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    box-sizing: border-box; /* Ensures that padding doesn't affect width */
+    text-align: center;
+}
+
+/* Logout button styling */
+.logout-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #ff8c00; /* Orange color for the button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the logout button */
+.logout-button:hover {
+    background-color: #e07b00; /* Slightly darker orange on hover */
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 480px) {
+    .logout-container {
+        padding: 20px;
+    }
+
+    .logout-button {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,201 @@
+.vacations-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.filter-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.filter-label {
+    font-size: 18px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.filter-select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 200px;
+    cursor: pointer;
+}
+
+.vacations-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.vacation-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.vacation-card:hover {
+    transform: scale(1.05);
+}
+
+.vacation-image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.vacation-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.like-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #d3d3d3;
+    color: #000;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    z-index: 3;
+    width: auto;
+    display: inline-block;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.like-button:hover {
+    background-color: #c0c0c0;
+}
+
+.like-button.liked {
+    background-color: #FFA500;
+    color: #fff;
+}
+
+.vacation-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.vacation-dates {
+    background-color: #ADD8E6;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.vacation-description {
+    padding: 10px;
+    background-color: #fff;
+    font-size: 14px;
+    height: 100px;
+    overflow: hidden;
+    position: relative;
+}
+
+.vacation-description.expanded {
+    overflow-y: auto;
+}
+
+.vacation-description.expanded::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.vacation-description p {
+    margin: 0;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    display: block;
+}
+
+.read-more {
+    background: none;
+    color: blue;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    margin-top: 5px;
+}
+
+.read-more:hover {
+    color: #00aaff;
+    background: none;
+}
+
+.vacation-price {
+    background-color: #FFA500;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    background-color: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+
+.pagination button {
+    background-color: #007BFF;
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #0056b3;
+}
+
+.pagination .disabled {
+    background-color: #dcdcdc;
+    cursor: not-allowed;
+}

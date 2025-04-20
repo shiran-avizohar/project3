@@ -1,0 +1,79 @@
+/* Layout.css */
+/* Main container of the layout */
+.Layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: white;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2vw;
+    transform: scale(0.65);
+    transform-origin: top;
+}
+
+/* Header styling */
+.Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2vw;
+    height: auto;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Main content styling */
+.Layout main {
+    flex-grow: 1;
+    background-color: white;
+    padding-top: 20px;
+    border-top: 2px dashed #00bcd4;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+/* Footer styling */
+.Layout footer {
+    background-color: #333;
+    color: white;
+    padding: 1vw;
+    text-align: center;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Make sure login and signup take full screen */
+.login, .signup {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .Layout {
+        flex-direction: column;
+        padding: 0 5vw;
+    }
+
+    .Layout main {
+        padding: 5vw;
+    }
+
+    .Layout footer {
+        padding: 5vw;
+    }
+
+    .Layout header {
+        padding: 4vw;
+        font-size: 4vw;
+    }
+}

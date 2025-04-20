@@ -1,0 +1,86 @@
+/* General styles for the login page */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    box-sizing: border-box; /* Ensures that padding doesn't affect width */
+}
+
+/* Header style inside the form */
+h2 {
+    text-align: center;
+    color: #ff8c00; /* Orange color for the title */
+    margin-bottom: 20px;
+}
+
+/* Input fields styling */
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* Ensures padding and border are included in the element's width and height */
+}
+
+/* Focus styles for inputs */
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #ff8c00; /* Highlight the border in orange on focus */
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 140, 0, 0.2); /* Soft glow on focus */
+}
+
+/* Button styling */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff8c00; /* Orange button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the button */
+button:hover {
+    background-color: #e07b00; /* Slightly darker orange on hover */
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+        padding: 10px;
+    }
+
+    button {
+        font-size: 16px;
+    }
+}
