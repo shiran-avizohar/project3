@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Modal.css";
 
 interface ModalProps {
@@ -28,8 +28,16 @@ const Modal: React.FC<ModalProps> = ({
   handleFormSubmit,
 }) => {
   const [filePreview, setFilePreview] = useState<string | null>(null);
+  const [vacationState, setVacationState] = useState(vacation);
 
-  if (!isOpen) return null;
+  // עדכון ה-state כאשר המודל נפתח
+  useEffect(() => {
+    if (isOpen) {
+      setVacationState({
+        ...vacation, // שימור כל הערכים של ה-vacation
+      });
+    }
+  }, [isOpen, vacation]);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -37,18 +45,20 @@ const Modal: React.FC<ModalProps> = ({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFilePreview(reader.result as string); // שומרים את התמונה ב-preview
-        handleFileChange(file); // מעבירים את הקובץ לפונקציה שתשמור אותו ב-state
+        setFilePreview(reader.result as string);
+        handleFileChange(file);
       };
-      reader.readAsDataURL(file); // המרת הקובץ ל-Base64
+      reader.readAsDataURL(file);
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <button className="close-btn" onClick={closeModal}>
-          X
+          ✕
         </button>
         <h2>Edit Vacation</h2>
         <form onSubmit={handleFormSubmit}>
@@ -57,7 +67,7 @@ const Modal: React.FC<ModalProps> = ({
             <input
               type="text"
               name="vacationDestination"
-              value={vacation.vacationDestination}
+              value={vacationState.vacationDestination}
               onChange={handleFormChange}
             />
           </div>
@@ -66,17 +76,16 @@ const Modal: React.FC<ModalProps> = ({
             <input
               type="number"
               name="price"
-              value={vacation.price}
+              value={vacationState.price}
               onChange={handleFormChange}
             />
           </div>
-          
           <div className="form-group">
             <label>Start Date</label>
             <input
               type="date"
               name="vacationDateStart"
-              value={vacation.vacationDateStart}
+              value={vacationState.vacationDateStart}
               onChange={handleFormChange}
             />
           </div>
@@ -85,7 +94,7 @@ const Modal: React.FC<ModalProps> = ({
             <input
               type="date"
               name="vacationDateEnd"
-              value={vacation.vacationDateEnd}
+              value={vacationState.vacationDateEnd}
               onChange={handleFormChange}
             />
           </div>
@@ -93,7 +102,7 @@ const Modal: React.FC<ModalProps> = ({
             <label>Description</label>
             <textarea
               name="vacationDescription"
-              value={vacation.vacationDescription}
+              value={vacationState.vacationDescription}
               onChange={handleFormChange}
             ></textarea>
           </div>
@@ -111,15 +120,14 @@ const Modal: React.FC<ModalProps> = ({
                 className="current-image"
               />
             )}
-            {!filePreview && vacation.imgFileName && (
+            {!filePreview && vacationState.imgFileName && (
               <img
-                src={`http://localhost:3000/uploads/${vacation.imgFileName}`}
+                src={`http://localhost:3000/uploads/${vacationState.imgFileName}`}
                 alt="Vacation"
                 className="current-image"
               />
             )}
           </div>
-
           <button type="submit">Save Changes</button>
         </form>
       </div>
