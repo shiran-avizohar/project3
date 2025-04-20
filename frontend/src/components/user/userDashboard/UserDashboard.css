@@ -1,90 +1,88 @@
-/* Main container for the Follow page */
-.follow-vacation-container {
+/* UserDashboard.css */
+
+/* General Styles for the User Dashboard */
+.user-dashboard-container {
   padding: 20px;
-  background-color: #f8f8f8;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9; /* Light grayish background */
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 800px;
-  margin: auto;
-  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Header style */
-.follow-vacation-header {
+.user-dashboard-container {
+  padding: 20px; 
+  background-color: #f4f4f4; 
+}
+/* Header Styles */
+.user-dashboard-header {
+  text-align: center;
+  color: #ff6f00; /* Warm orange (consistent with the logo) */
   font-size: 2rem;
-  margin-bottom: 20px;
-  color: #FFA500; /* Similar to the button color */
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+/* Info Section for the User */
+.user-dashboard-info {
   text-align: center;
+  margin-bottom: 30px;
 }
 
-/* Vacation details section */
-.vacation-details {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.vacation-details h3 {
-  font-size: 1.5rem;
+.user-dashboard-info h3 {
   color: #333;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
 }
 
-.vacation-details p {
-  font-size: 1rem;
+.user-dashboard-info p {
+  font-size: 1.1rem;
   color: #555;
-  margin-bottom: 5px;
+  margin: 10px 0;
 }
 
-/* Button styling */
-.follow-action-button {
-  padding: 12px 20px;
-  background-color: #FFA500; /* Orange color like the user dashboard button */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 48%; /* Two buttons will fit in a row */
-  font-size: 1rem;
-  margin-top: 10px;
-}
-
-/* Button hover effect */
-.follow-action-button:hover {
-  background-color: #FFA500; /* Slightly darker orange on hover */
-}
-
-/* Layout for vacation actions (buttons) */
-.vacation-actions {
+/* Button Styles for Links */
+.user-dashboard-links {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
-/* Loading state */
-.loading {
-  text-align: center;
-  color: #FFA500;
-  font-size: 1.2rem;
-  margin-top: 30px;
+.user-dashboard-button {
+  background-color: #ff6f00; /* Orange */
+  color: white;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Responsive design for mobile */
+.user-dashboard-button:hover {
+  background-color: #e65c00; /* Darker orange on hover */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.user-dashboard-button:focus {
+  outline: none;
+  border: 2px solid #ff6f00; /* Focus outline with the same color */
+}
+
+.user-dashboard-button:active {
+  background-color: #e65c00; /* Darker orange on active */
+}
+
+/* Responsive Design */
 @media (max-width: 480px) {
-  .follow-vacation-container {
+  .user-dashboard-container {
     padding: 15px;
   }
 
-  .vacation-details {
-    padding: 15px;
+  .user-dashboard-info p {
+    font-size: 1rem;
   }
 
-  .follow-action-button {
-    font-size: 0.9rem;
+  .user-dashboard-button {
     width: 100%; /* Full width for buttons on small screens */
+    font-size: 1rem;
   }
 }

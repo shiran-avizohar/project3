@@ -50,6 +50,7 @@ nav a {
     transition: background-color 0.3s ease, color 0.3s ease;
     white-space: nowrap;
     max-width: 140px;
+    display: inline-block;
 }
 
 nav a.active {
