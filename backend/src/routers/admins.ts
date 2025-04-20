@@ -18,8 +18,8 @@ import upload from "../middlewares/multer-config";
 const router = Router();
 
 router.get('/:vacationId', authenticateUser, authorizeAdmin, paramsValidation(getVacationReportsValidator), getVacationReports);  
-router.post('/', authenticateUser, authorizeAdmin, upload.single("imgFileName"), validation(addVacationValidator), addVacation);  
-router.put('/vacations/:vacationId', authenticateUser, authorizeAdmin, validation(editVacationValidator), editVacation);  
+router.post('/', authenticateUser, authorizeAdmin, upload.single("image"), validation(addVacationValidator), addVacation);  
+router.put('/vacations/:vacationId', authenticateUser, authorizeAdmin, upload.single("image"), validation(editVacationValidator), editVacation);  
 router.delete('/:vacationId', authenticateUser, authorizeAdmin, paramsValidation(deleteVacationValidator), deleteVacation); 
 router.get("/vacations",authenticateUser, authorizeAdmin, getVacations);
 

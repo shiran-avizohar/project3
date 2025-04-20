@@ -23,6 +23,8 @@ const app = express();
         app.use(cors()) // allow any client to use this server
         app.use(json()) // middleware to handle JSON payloads
 
+        app.use('/uploads', express.static('uploads'));
+
         app.use('/api/users', usersRouter)
         app.use('/api/admins', adminsRouter)
         app.use('/', authRouter)

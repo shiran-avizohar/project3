@@ -70,6 +70,7 @@ const Modal: React.FC<ModalProps> = ({
               onChange={handleFormChange}
             />
           </div>
+          
           <div className="form-group">
             <label>Start Date</label>
             <input
