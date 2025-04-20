@@ -2,17 +2,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 60px;
-    height: 150px;
+    padding: 0 2vw;
+    height: auto;
     box-sizing: border-box;
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: white; /* עדיין יש צבע לבן עבור התפריט */
+    background-color: white;
+    width: 100%;
+    overflow: hidden;
 }
 
 .Header img {
-    height: 150px;
+    height: 15vh; 
+    max-height: 200px; 
     object-fit: contain;
 }
 
@@ -21,26 +24,32 @@
     align-items: center;
     font-weight: 600;
     color: #0288d1;
-    font-size: 16px;
-    margin-left: 20px;
+    font-size: 1.5vw;
+    margin-left: 10px;
 }
 
 nav {
     display: flex;
-    gap: 40px;
+    justify-content: space-between;
     align-items: center;
+    gap: 1vw; 
     flex-grow: 1;
-    justify-content: center;
+    flex-wrap: nowrap;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 nav a {
     text-decoration: none;
     color: #FFA500;
     font-weight: 700;
-    font-size: 22px;
-    padding: 12px 18px;
+    font-size: 1.5vw;
+    padding: 0.5vw 1.5vw;
     border-radius: 8px;
     transition: background-color 0.3s ease, color 0.3s ease;
+    white-space: nowrap;
+    max-width: 140px;
 }
 
 nav a.active {
@@ -48,3 +57,6 @@ nav a.active {
     color: white;
 }
 
+.Header, nav, .Header img, .Header .user-info-container {
+    flex-shrink: 1;
+}

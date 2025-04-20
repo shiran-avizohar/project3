@@ -1,13 +1,15 @@
 /* Layout.css */
-
 /* Main container of the layout */
 .Layout {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the layout covers the full viewport height */
-    background-color: white; /* Set white background for the whole layout */
-    max-width: 1200px; /* Set max width for layout */
-    margin: 0 auto; /* Center the content horizontally */
+    min-height: 100vh;
+    background-color: white;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2vw;
+    transform: scale(0.65);
+    transform-origin: top;
 }
 
 /* Header styling */
@@ -15,32 +17,32 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 60px;
-    height: 150px; /* Adjust header height */
+    padding: 0 2vw;
+    height: auto;
     box-sizing: border-box;
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: white; /* Ensure header has the same background */
-    width: 100%; /* Ensure header takes full width */
-    /* No border on the bottom here */
+    background-color: white;
+    width: 100%;
+    overflow: hidden;
 }
 
 /* Main content styling */
 .Layout main {
-    flex-grow: 1; /* Allow main content to grow and take available space */
-    background-color: white; /* Set white background for the main */
-    padding-top: 20px; /* Add padding to top of the content */
-    border-top: 2px dashed #00bcd4; /* Add dashed line between header and main */
-    padding-left: 20px; /* Add some left padding for the content */
-    padding-right: 20px; /* Add some right padding for the content */
+    flex-grow: 1;
+    background-color: white;
+    padding-top: 20px;
+    border-top: 2px dashed #00bcd4;
+    padding-left: 2vw;
+    padding-right: 2vw;
 }
 
 /* Footer styling */
 .Layout footer {
-    background-color: #333; /* Dark footer background */
+    background-color: #333;
     color: white;
-    padding: 10px;
+    padding: 1vw;
     text-align: center;
     box-sizing: border-box;
     width: 100%;
@@ -59,19 +61,19 @@
 @media (max-width: 768px) {
     .Layout {
         flex-direction: column;
-        padding: 0 10px; /* Add some padding on small screens */
-    }
-
-    .Layout header {
-        padding: 15px;
-        font-size: 18px;
+        padding: 0 5vw;
     }
 
     .Layout main {
-        padding: 15px;
+        padding: 5vw;
     }
 
     .Layout footer {
-        padding: 15px;
+        padding: 5vw;
+    }
+
+    .Layout header {
+        padding: 4vw;
+        font-size: 4vw;
     }
 }
